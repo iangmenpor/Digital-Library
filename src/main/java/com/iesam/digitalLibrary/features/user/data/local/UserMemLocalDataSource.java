@@ -35,6 +35,7 @@ public class UserMemLocalDataSource implements DataSourceRepository{
     public User findById(Integer id) {
         return dataStore.get(id.toString());
     }
+    @Override
     public List<User> findAll() {
         return dataStore.values().stream().toList();
     }
