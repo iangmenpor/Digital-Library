@@ -7,4 +7,5 @@ public interface DataSourceRepository {
     void save (User model);
 
     User findById(Integer id);
+    void delete(Integer modelId);
 }

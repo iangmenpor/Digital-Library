@@ -3,6 +3,7 @@ package com.iesam.digitalLibrary.features.user.presentation;
 import com.iesam.digitalLibrary.features.user.data.UserDataRepository;
 import com.iesam.digitalLibrary.features.user.data.local.UserFileDataSource;
 import com.iesam.digitalLibrary.features.user.data.local.UserMemLocalDataSource;
+import com.iesam.digitalLibrary.features.user.domain.DeleteUserUseCase;
 import com.iesam.digitalLibrary.features.user.domain.GetUserUseCase;
 import com.iesam.digitalLibrary.features.user.domain.SaveUserUseCase;
 import com.iesam.digitalLibrary.features.user.domain.User;
@@ -23,7 +24,8 @@ public class UserPresentation {
             System.out.println("+--------Menu de Usuario--------+");
             System.out.println("1. Crear usuario");
             System.out.println("2. Consultar un usuario");
-            System.out.println("3. Volver a menú principal");
+            System.out.println("3. Borrar un usuario");
+            System.out.println("4. Volver a menú principal");
             System.out.println("+-------------------------------+");
             System.out.print("> Ingrese su elección: ");
             choice = sc.nextInt();
@@ -37,12 +39,15 @@ public class UserPresentation {
                     getUser();
                     break;
                 case 3:
+                    deleteUser();
+                    break;
+                case 4:
                     System.out.println("<Info> Volviendo a menu principal...");
                     break;
                 default:
                     System.err.println("<!> Opción no valida. Vuelva a intentarlo");
             }
-        } while (choice != 3);
+        } while (choice != 4);
     }
     private static void saveUser() {
         SaveUserUseCase saveUserUseCase = new SaveUserUseCase(dataRepository);
@@ -80,6 +85,35 @@ public class UserPresentation {
             System.out.println("  > " + recoveredUser);
         } else {
             System.err.println("\n<!> No se ha encontrado un Usuario con ese ID");
+        }
+    }
+    private static void deleteUser(){
+        System.out.print("> Ingresa el ID del Usuario que deseas eliminar: ");
+        int id = sc.nextInt();
+        sc.nextLine();
+        GetUserUseCase getUserUseCase = new GetUserUseCase(dataRepository);
+        User userDeleted = getUserUseCase.execute(id);
+        if (userDeleted != null) {
+            System.out.println("- El usuario que estás a punto de eliminar es: " + userDeleted);
+            System.out.println("  <Warning> Eliminar a un usuario es una acción permanente.");
+            System.out.print("- ¿Estás seguro de que deseas eliminar a este usuario? (Y|N): ");
+            char conf = sc.next().charAt(0);
+            char confirmation = Character.toUpperCase(conf);
+            sc.nextLine(); //consumo
+            switch (confirmation) {
+                case 'Y':
+                    DeleteUserUseCase deleteUserUseCase = new DeleteUserUseCase(dataRepository);
+                    deleteUserUseCase.execute(id);
+                    System.out.println("<OK> Usuario eliminado.");
+                    break;
+                case 'N':
+                    System.out.println("<Info> Se ha cancelado la eliminación. Volviendo...");
+                    break;
+                default:
+                    System.err.println("<!> Opción no válida. Por favor introduce Y o N.");
+            }
+        } else {
+            System.err.println("<!> No se ha encontrado un Usuario con ese ID");
         }
     }
 }
