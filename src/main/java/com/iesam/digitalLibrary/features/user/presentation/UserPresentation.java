@@ -3,11 +3,9 @@ package com.iesam.digitalLibrary.features.user.presentation;
 import com.iesam.digitalLibrary.features.user.data.UserDataRepository;
 import com.iesam.digitalLibrary.features.user.data.local.UserFileDataSource;
 import com.iesam.digitalLibrary.features.user.data.local.UserMemLocalDataSource;
-import com.iesam.digitalLibrary.features.user.domain.DeleteUserUseCase;
-import com.iesam.digitalLibrary.features.user.domain.GetUserUseCase;
-import com.iesam.digitalLibrary.features.user.domain.SaveUserUseCase;
-import com.iesam.digitalLibrary.features.user.domain.User;
-
+import com.iesam.digitalLibrary.features.user.domain.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class UserPresentation {
@@ -25,7 +23,8 @@ public class UserPresentation {
             System.out.println("1. Crear usuario");
             System.out.println("2. Consultar un usuario");
             System.out.println("3. Borrar un usuario");
-            System.out.println("4. Volver a menú principal");
+            System.out.println("4. Consultar lista de usuarios.");
+            System.out.println("5. Volver a menú principal");
             System.out.println("+-------------------------------+");
             System.out.print("> Ingrese su elección: ");
             choice = sc.nextInt();
@@ -42,12 +41,14 @@ public class UserPresentation {
                     deleteUser();
                     break;
                 case 4:
+                    getUsers();
+                case 5:
                     System.out.println("<Info> Volviendo a menu principal...");
                     break;
                 default:
                     System.err.println("<!> Opción no valida. Vuelva a intentarlo");
             }
-        } while (choice != 4);
+        } while (choice != 5);
     }
     private static void saveUser() {
         SaveUserUseCase saveUserUseCase = new SaveUserUseCase(dataRepository);
@@ -115,5 +116,20 @@ public class UserPresentation {
         } else {
             System.err.println("<!> No se ha encontrado un Usuario con ese ID");
         }
+    }
+  
+    private static List<User> getUsers(){
+        GetUsersUseCase getUsersUseCase = new GetUsersUseCase(dataRepository);
+        List<User> allUsers = new ArrayList<>(getUsersUseCase.execute());
+        System.out.println("<Info> Imprimiendo listado de Usuarios...");
+        if (!allUsers.isEmpty()){
+            for (User x : allUsers) {
+                System.out.println(x);
+            }
+            System.out.println("<OK> Usuarios en total: "+ allUsers.size());
+        } else {
+            System.out.println("<Info> No se han encontrado usuarios de alta.");
+        }
+        return allUsers;
     }
 }
