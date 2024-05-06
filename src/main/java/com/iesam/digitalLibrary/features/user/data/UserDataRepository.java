@@ -16,4 +16,9 @@ public class UserDataRepository implements UserRepository {
 
     @Override
     public void saveUser(User model) { dataSourceRepository.save(model);}
+
+    @Override
+    public User getUser(Integer id) {
+        return dataSourceRepository.findById(id);
+    }
 }
