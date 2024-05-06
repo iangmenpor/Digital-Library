@@ -43,11 +43,13 @@ public class StubDataSourceRepository2 implements DataSourceRepository{
 
     @Override
     public List<User> findAll() {
-        return null;
+        return userList;
     }
 
     @Override
     public void saveList(List<User> models) {
-
+        for (User users : models){
+            save(users);
+        }
     }
 }
