@@ -7,7 +7,6 @@ import java.util.List;
 public interface DataSourceRepository {
 
     void save (User model);
-
     User findById(Integer id);
     void delete(Integer modelId);
     List<User> findAll();
