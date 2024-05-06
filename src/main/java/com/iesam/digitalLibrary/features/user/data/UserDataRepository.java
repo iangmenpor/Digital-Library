@@ -21,10 +21,9 @@ public class UserDataRepository implements UserRepository {
     public User getUser(Integer id) {
         return dataSourceRepository.findById(id);
     }
-
+  
     @Override
     public void deleteUser(Integer id) {
         dataSourceRepository.delete(id);
     }
-
 }
