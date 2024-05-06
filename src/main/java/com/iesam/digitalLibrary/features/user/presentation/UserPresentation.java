@@ -42,6 +42,7 @@ public class UserPresentation {
                 default:
                     System.err.println("<!> Opción no valida. Vuelva a intentarlo");
             }
+
         } while (choice != 3);
     }
     private static void saveUser() {
@@ -83,4 +84,3 @@ public class UserPresentation {
         }
     }
 }
-
