@@ -24,7 +24,8 @@ public class UserPresentation {
             System.out.println("2. Consultar un usuario");
             System.out.println("3. Borrar un usuario");
             System.out.println("4. Consultar lista de usuarios.");
-            System.out.println("5. Volver a menú principal");
+            System.out.println("5. Modificar datos de usuario.");
+            System.out.println("6. Volver a menú principal");
             System.out.println("+-------------------------------+");
             System.out.print("> Ingrese su elección: ");
             choice = sc.nextInt();
@@ -42,13 +43,17 @@ public class UserPresentation {
                     break;
                 case 4:
                     getUsers();
+                    break;
                 case 5:
+                    updateUser();
+                    break;
+                case 6:
                     System.out.println("<Info> Volviendo a menu principal...");
                     break;
                 default:
                     System.err.println("<!> Opción no valida. Vuelva a intentarlo");
             }
-        } while (choice != 5);
+        } while (choice != 6);
     }
     private static void saveUser() {
         SaveUserUseCase saveUserUseCase = new SaveUserUseCase(dataRepository);
@@ -74,7 +79,6 @@ public class UserPresentation {
 
         sc.nextLine(); //Consumir nueva linea
     }
-
     private static void getUser(){
         System.out.print("> Ingresa el ID del Usuario que deseas recuperar: ");
         int id = sc.nextInt();
@@ -117,7 +121,6 @@ public class UserPresentation {
             System.err.println("<!> No se ha encontrado un Usuario con ese ID");
         }
     }
-  
     private static List<User> getUsers(){
         GetUsersUseCase getUsersUseCase = new GetUsersUseCase(dataRepository);
         List<User> allUsers = new ArrayList<>(getUsersUseCase.execute());
@@ -131,5 +134,48 @@ public class UserPresentation {
             System.out.println("<Info> No se han encontrado usuarios de alta.");
         }
         return allUsers;
+    }
+    private static void updateUser(){
+        GetUserUseCase getUserUseCase = new GetUserUseCase(dataRepository);
+        UpdateUserUseCase updateUserUseCase = new UpdateUserUseCase(dataRepository);
+        String dni, name, surname, email;
+        int id;
+
+        System.out.print("-> Introduce el id del usuario que deseas actualizar: ");
+        id = sc.nextInt();
+
+        User oldUser = getUserUseCase.execute(id);
+
+        if (oldUser != null) {
+            System.out.println("<Info> Recuperando información sobre el usuario con ID " + id);
+            System.out.println("  > " + oldUser);
+            System.out.print("- ¿Deseas actualizar este usuario?(Y|N): ");
+            char asw = sc.next().charAt(0);
+            char confirmation = Character.toUpperCase(asw);
+            sc.nextLine(); //consumo
+            switch (confirmation) {
+                case 'Y':
+                    System.out.print("-> Introduce el nuevo DNI: ");
+                    dni = sc.nextLine();
+                    System.out.print("-> Introduce el nuevo Nombre: ");
+                    name = sc.nextLine();
+                    System.out.print("-> Introduce el nuevo Apellido: ");
+                    surname = sc.nextLine();
+                    System.out.print("-> Introduce el nuevo Email: ");
+                    email = sc.nextLine();
+                    User updatedUser = new User (id,name,surname,dni,email);
+                    updateUserUseCase.execute(updatedUser);
+                    System.out.println("<OK> Datos actualizados.");
+                    break;
+                case 'N':
+                    System.out.println("<Info> Se ha cancelado la Actualización. Volviendo...");
+                    break;
+                default:
+                    System.err.println("<!> Opción no válida. Por favor introduce Y o N.");
+            }
+        } else {
+            System.err.println("<!> No se ha encontrado un Usuario con ese ID");
+        }
+        sc.nextLine(); //consumo
     }
 }
