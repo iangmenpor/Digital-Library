@@ -3,9 +3,7 @@ package com.iesam.digitalLibrary.features.user.data;
 import com.iesam.digitalLibrary.features.user.data.local.DataSourceRepository;
 import com.iesam.digitalLibrary.features.user.domain.User;
 import com.iesam.digitalLibrary.features.user.domain.UserRepository;
-
 import java.util.List;
-
 
 public class UserDataRepository implements UserRepository {
 
@@ -23,7 +21,7 @@ public class UserDataRepository implements UserRepository {
     public User getUser(Integer id) {
         return dataSourceRepository.findById(id);
     }
-
+  
     @Override
     public void deleteUser(Integer id) {
         dataSourceRepository.delete(id);
@@ -33,5 +31,4 @@ public class UserDataRepository implements UserRepository {
     public List<User> getUsers() {
         return dataSourceRepository.findAll();
     }
-
 }
