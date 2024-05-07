@@ -27,6 +27,7 @@ class DeleteUserUseCaseTest {
         stubUserDataRepository = new StubUserDataRepository(StubUserMemLocalDataSource.getInstance());
         stubUserDataRepository.saveUser(userToDelete);
         deleteUserUseCase = new DeleteUserUseCase(stubUserDataRepository);
+      
         //When
         deleteUserUseCase.execute(1);
 

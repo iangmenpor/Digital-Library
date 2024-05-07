@@ -80,7 +80,6 @@ public class UserPresentation {
 
         sc.nextLine(); //Consumir nueva linea
     }
-
     private static void getUser(){
         System.out.print("> Ingresa el ID del Usuario que deseas recuperar: ");
         int id = sc.nextInt();
@@ -181,4 +180,3 @@ public class UserPresentation {
         sc.nextLine(); //consumo
     }
 }
-
