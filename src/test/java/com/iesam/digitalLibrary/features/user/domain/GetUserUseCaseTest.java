@@ -12,7 +12,7 @@ class GetUserUseCaseTest {
 
     private GetUserUseCase getUserUseCase;
     private StubUserDataRepository stubUserDataRepository;
-  
+
     @BeforeEach
     void setUp() {
     }
