@@ -15,6 +15,7 @@ class GetUsersUseCaseTest {
 
     private GetUsersUseCase getUsersUseCase;
     private StubUserDataRepository stubUserDataRepository;
+  
     @BeforeEach
     void setUp() {
     }
@@ -33,6 +34,7 @@ class GetUsersUseCaseTest {
                 new User(2, "TestName2", "TestSurname2", "TestDNI2", "TestEmail2"),
                 new User(3, "TestName3", "TestSurname3", "TestDNI3", "TestEmail3")
         );
+      
         stubUserDataRepository = new StubUserDataRepository(StubUserMemLocalDataSource.getInstance());
         getUsersUseCase = new GetUsersUseCase(stubUserDataRepository);
 

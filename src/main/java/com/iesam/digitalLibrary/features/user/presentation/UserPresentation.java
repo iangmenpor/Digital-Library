@@ -4,11 +4,9 @@ import com.iesam.digitalLibrary.features.user.data.UserDataRepository;
 import com.iesam.digitalLibrary.features.user.data.local.UserFileDataSource;
 import com.iesam.digitalLibrary.features.user.data.local.UserMemLocalDataSource;
 import com.iesam.digitalLibrary.features.user.domain.*;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
 public class UserPresentation {
 
     private static Scanner sc;
@@ -80,7 +78,6 @@ public class UserPresentation {
 
         sc.nextLine(); //Consumir nueva linea
     }
-
     private static void getUser(){
         System.out.print("> Ingresa el ID del Usuario que deseas recuperar: ");
         int id = sc.nextInt();
@@ -181,4 +178,3 @@ public class UserPresentation {
         sc.nextLine(); //consumo
     }
 }
-

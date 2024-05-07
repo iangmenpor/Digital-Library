@@ -11,6 +11,7 @@ class UpdateUserUseCaseTest {
 
     private UpdateUserUseCase updateUserUseCase;
     private StubUserDataRepository stubUserDataRepository;
+  
     @BeforeEach
     void setUp() {
     }
@@ -68,6 +69,7 @@ class UpdateUserUseCaseTest {
         //Verificar que el usuario existente no haya sido modificado
         User retrievedExistingUser = stubUserDataRepository.getUser(1);
         Assertions.assertEquals(existingUser, retrievedExistingUser, "El usuario no ha sido modificado");
+
 
     }
 }
