@@ -1,7 +1,7 @@
 package com.iesam.digitalLibrary.features.user.domain;
 
-import com.iesam.digitalLibrary.features.user.data.UserDataRepository;
-import com.iesam.digitalLibrary.features.user.data.local.StubDataSourceRepository2;
+import com.iesam.digitalLibrary.features.user.data.StubUserDataRepository;
+import com.iesam.digitalLibrary.features.user.data.local.StubUserMemLocalDataSource;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,6 +14,8 @@ import java.util.List;
 class GetUsersUseCaseTest {
 
     private GetUsersUseCase getUsersUseCase;
+    private StubUserDataRepository stubUserDataRepository;
+  
     @BeforeEach
     void setUp() {
     }
@@ -21,6 +23,7 @@ class GetUsersUseCaseTest {
     @AfterEach
     void tearDown() {
         getUsersUseCase = null;
+        stubUserDataRepository = null;
     }
 
     @Test
@@ -31,15 +34,17 @@ class GetUsersUseCaseTest {
                 new User(2, "TestName2", "TestSurname2", "TestDNI2", "TestEmail2"),
                 new User(3, "TestName3", "TestSurname3", "TestDNI3", "TestEmail3")
         );
-        StubDataSourceRepository2 stubDataSourceRepository2 = new StubDataSourceRepository2();
-        stubDataSourceRepository2.saveList(expectedUsers);
-        getUsersUseCase = new GetUsersUseCase(new UserDataRepository(stubDataSourceRepository2));
+      
+        stubUserDataRepository = new StubUserDataRepository(StubUserMemLocalDataSource.getInstance());
+        getUsersUseCase = new GetUsersUseCase(stubUserDataRepository);
+
+        for (User users : expectedUsers){ stubUserDataRepository.saveUser(users);}
 
         //When
         List<User> actualUsers = getUsersUseCase.execute();
 
         //Then
-        Assertions.assertEquals(expectedUsers.size() , actualUsers.size());
+        Assertions.assertEquals(expectedUsers.size() , actualUsers.size(), "El tamaño debe ser el mismo.");
 
         for (int i = 0; i < expectedUsers.size(); i++){
             User expectedUser = expectedUsers.get(i);

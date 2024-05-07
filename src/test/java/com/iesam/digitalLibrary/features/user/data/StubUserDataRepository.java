@@ -3,15 +3,15 @@ package com.iesam.digitalLibrary.features.user.data;
 import com.iesam.digitalLibrary.features.user.data.local.DataSourceRepository;
 import com.iesam.digitalLibrary.features.user.domain.User;
 import com.iesam.digitalLibrary.features.user.domain.UserRepository;
+
 import java.util.ArrayList;
 import java.util.List;
 
-
-public class UserDataRepository implements UserRepository {
+public class StubUserDataRepository implements UserRepository {
 
     private final DataSourceRepository dataSourceRepository;
 
-    public UserDataRepository(DataSourceRepository dataSourceRepository) {
+    public StubUserDataRepository(DataSourceRepository dataSourceRepository) {
         this.dataSourceRepository = dataSourceRepository;
     }
 
@@ -23,14 +23,17 @@ public class UserDataRepository implements UserRepository {
     public User getUser(Integer id) {
         return dataSourceRepository.findById(id);
     }
+
     @Override
     public void deleteUser(Integer id) {
         dataSourceRepository.delete(id);
     }
+
     @Override
     public List<User> getUsers() {
         return dataSourceRepository.findAll();
     }
+
     @Override
     public void updateUser(User model) {
         List<User> userList = new ArrayList<>(dataSourceRepository.findAll());

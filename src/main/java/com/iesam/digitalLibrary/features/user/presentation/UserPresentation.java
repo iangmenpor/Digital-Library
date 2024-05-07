@@ -7,8 +7,6 @@ import com.iesam.digitalLibrary.features.user.domain.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
-
 public class UserPresentation {
 
     private static Scanner sc;
