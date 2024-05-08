@@ -5,6 +5,7 @@ import com.iesam.digitalLibrary.features.digitalProduct.data.local.DigitalProduc
 import com.iesam.digitalLibrary.features.digitalProduct.data.local.DigitalProductMemLocalDataSource;
 import com.iesam.digitalLibrary.features.digitalProduct.domain.DigitalProduct;
 import com.iesam.digitalLibrary.features.digitalProduct.domain.EBook;
+import com.iesam.digitalLibrary.features.digitalProduct.domain.GetDigitalProductUseCase;
 import com.iesam.digitalLibrary.features.digitalProduct.domain.SaveDigitalProductUseCase;
 
 import java.util.Scanner;
@@ -23,7 +24,8 @@ public class DigitalProductPresentation {
             System.out.println();
             System.out.println("+-------Menu de Productos-------+");
             System.out.println("1. Catalogar nuevo Producto.");
-            System.out.println("2. Volver a menú principal.");
+            System.out.println("2. Consultar un Producto.");
+            System.out.println("3. Volver a menú principal.");
             System.out.println("+-------------------------------+");
             System.out.print("> Ingrese su elección: ");
             choice = sc.nextInt();
@@ -34,13 +36,16 @@ public class DigitalProductPresentation {
                     saveDigitalProduct();
                     break;
                 case 2:
+                    getDigitalProductPresentation();
+                    break;
+                case 3:
                     System.out.println("<Info> Volviendo a menú principal...");
                     break;
                 default:
                     System.err.println("<!> Opción no valida. Vuelva a intentarlo.");
                     break;
             }
-        } while (choice != 2);
+        } while (choice != 3);
     }
 
     private static void saveDigitalProduct() {
@@ -80,5 +85,21 @@ public class DigitalProductPresentation {
                     break;
             }
         }  while (type != 2);
+    }
+    private static void getDigitalProductPresentation(){
+        System.out.print("> Ingresa el ID del Usuario que deseas recuperar: ");
+        int id = sc.nextInt();
+        sc.nextLine(); // Consumir línea
+        DigitalProduct recoveredDigitalProduct = getDigitalProduct(id);
+        if (recoveredDigitalProduct != null){
+            System.out.println("<Info> Recuperando información sobre el Producto digital con ID " + id);
+            System.out.println("  > " + recoveredDigitalProduct);
+        } else {
+            System.err.println("\n<!> No se ha encontrado un producto digital con ese ID");
+        }
+    }
+    public static DigitalProduct getDigitalProduct(Integer id){
+        GetDigitalProductUseCase getDigitalProductUseCase = new GetDigitalProductUseCase(dataRepository);
+        return getDigitalProductUseCase.execute(id);
     }
 }
