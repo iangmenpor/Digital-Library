@@ -21,4 +21,9 @@ public class DigitalProductDataRepository implements DigitalProductRepository {
     public DigitalProduct getDigitalProduct(Integer id) {
         return dataSourceRepository.findById(id);
     }
+
+    @Override
+    public void deleteDigitalProduct(Integer id) {
+        dataSourceRepository.delete(id);
+    }
 }

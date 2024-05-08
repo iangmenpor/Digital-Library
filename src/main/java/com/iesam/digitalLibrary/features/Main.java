@@ -28,6 +28,7 @@ public class Main {
                 case 2:
                     DigitalProductPresentation digitalProductPresentation = new DigitalProductPresentation(sc);
                     digitalProductPresentation.displayDigitalProductsMenu();
+                    break;
                 case 3:
                     System.out.println("<Info> Cerrando Programa...");
                     System.out.println("Que tenga una buena lectura.");
