@@ -16,4 +16,9 @@ public class DigitalProductDataRepository implements DigitalProductRepository {
     public void saveDigitalProduct(DigitalProduct model) {
         dataSourceRepository.save(model);
     }
+
+    @Override
+    public DigitalProduct getDigitalProduct(Integer id) {
+        return dataSourceRepository.findById(id);
+    }
 }
