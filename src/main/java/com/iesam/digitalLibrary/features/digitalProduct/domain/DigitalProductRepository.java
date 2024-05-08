@@ -4,4 +4,5 @@ public interface DigitalProductRepository {
 
     void saveDigitalProduct(DigitalProduct model);
     DigitalProduct getDigitalProduct(Integer id);
+    void deleteDigitalProduct(Integer id);
 }

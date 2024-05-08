@@ -7,4 +7,5 @@ public interface DigitalProductDataSourceRepository {
 
     void save (DigitalProduct model);
     DigitalProduct findById(Integer modelId);
+    void delete(Integer modelId);
 }
