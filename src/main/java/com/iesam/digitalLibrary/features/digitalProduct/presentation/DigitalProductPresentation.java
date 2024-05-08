@@ -5,6 +5,8 @@ import com.iesam.digitalLibrary.features.digitalProduct.data.local.DigitalProduc
 import com.iesam.digitalLibrary.features.digitalProduct.data.local.DigitalProductMemLocalDataSource;
 import com.iesam.digitalLibrary.features.digitalProduct.domain.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class DigitalProductPresentation {
@@ -23,7 +25,8 @@ public class DigitalProductPresentation {
             System.out.println("1. Catalogar nuevo Producto.");
             System.out.println("2. Consultar un Producto.");
             System.out.println("3. Eliminar un Producto.");
-            System.out.println("4. Volver a menú principal.");
+            System.out.println("4. Consultar lista de productos.");
+            System.out.println("5. Volver a menú principal.");
             System.out.println("+-------------------------------+");
             System.out.print("> Ingrese su elección: ");
             choice = sc.nextInt();
@@ -40,12 +43,15 @@ public class DigitalProductPresentation {
                     deleteDigitalProductPresentation();
                     break;
                 case 4:
+                    getAllDigitalProductsPresentation();
+                    break;
+                case 5:
                     System.out.println("<Info> Volviendo a menú principal...");
                     break;
                 default:
                     System.err.println("<!> Opción no valida. Vuelva a intentarlo.");
             }
-        } while (choice != 4);
+        } while (choice != 5);
     }
 
     private static void saveDigitalProduct() {
@@ -132,5 +138,19 @@ public class DigitalProductPresentation {
     public static void deleteDigitalProduct(Integer id){
         DeleteDigitalProductUseCase deleteDigitalProductUseCase = new DeleteDigitalProductUseCase(dataRepository);
         deleteDigitalProductUseCase.execute(id);
+    }
+    private static void getAllDigitalProductsPresentation(){
+        List<DigitalProduct> allProducts = new ArrayList<>(getAllDigitalProducts());
+        System.out.println("<Info> Imprimiendo listado de Productos Digitales...");
+        if (!allProducts.isEmpty()){
+            allProducts.forEach(System.out::println);
+            System.out.println("<OK> Productos en total: "+ allProducts.size());
+        } else {
+            System.out.println("<Info> No se han encontrado productos digitales.");
+        }
+    }
+    public static List<DigitalProduct> getAllDigitalProducts(){
+        GetDigitalProductsUseCase getDigitalProductsUseCase = new GetDigitalProductsUseCase(dataRepository);
+        return getDigitalProductsUseCase.execute();
     }
 }

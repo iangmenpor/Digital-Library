@@ -4,6 +4,8 @@ import com.iesam.digitalLibrary.features.digitalProduct.data.local.DigitalProduc
 import com.iesam.digitalLibrary.features.digitalProduct.domain.DigitalProduct;
 import com.iesam.digitalLibrary.features.digitalProduct.domain.DigitalProductRepository;
 
+import java.util.List;
+
 public class DigitalProductDataRepository implements DigitalProductRepository {
 
     private final DigitalProductDataSourceRepository dataSourceRepository;
@@ -25,5 +27,10 @@ public class DigitalProductDataRepository implements DigitalProductRepository {
     @Override
     public void deleteDigitalProduct(Integer id) {
         dataSourceRepository.delete(id);
+    }
+
+    @Override
+    public List<DigitalProduct> getDigitalProducts() {
+        return dataSourceRepository.findAll();
     }
 }
