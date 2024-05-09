@@ -26,7 +26,8 @@ public class DigitalProductPresentation {
             System.out.println("2. Consultar un Producto.");
             System.out.println("3. Eliminar un Producto.");
             System.out.println("4. Consultar lista de productos.");
-            System.out.println("5. Volver a menú principal.");
+            System.out.println("5. Modificar producto.");
+            System.out.println("6. Volver a menú principal.");
             System.out.println("+-------------------------------+");
             System.out.print("> Ingrese su elección: ");
             choice = sc.nextInt();
@@ -53,6 +54,7 @@ public class DigitalProductPresentation {
                     break;
                 default:
                     System.err.println("<!> Opción no valida. Vuelva a intentarlo.");
+                    break;
             }
         } while (choice != 6);
     }
