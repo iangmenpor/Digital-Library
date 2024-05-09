@@ -1,4 +1,4 @@
-package com.iesam.digitalLibrary.features.digitalProduct.domain;
+package com.iesam.digitalLibrary.features.digitalResources.domain;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -10,31 +10,32 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class GetDigitalProductUseCaseTest {
+class GetDigitalResourceUseCaseTest {
 
     @Mock
-    private DigitalProductRepository productRepository;
+    private DigitalResourceRepository productRepository;
 
-    private GetDigitalProductUseCase getDigitalProductUseCase;
+    private GetDigitalResourceUseCase getDigitalResourceUseCase;
 
     @BeforeEach
     void setUp() {
-        getDigitalProductUseCase = new GetDigitalProductUseCase(productRepository);
+        getDigitalResourceUseCase = new GetDigitalResourceUseCase(productRepository);
     }
 
     @AfterEach
     void tearDown() {
-        getDigitalProductUseCase = null;
+        getDigitalResourceUseCase = null;
     }
 
     @Test
     public void cuandoSeBuscaIdDeUnProductoDigitalExistenteDebeDevolverUsuarioBuscado(){
         //Given
-        DigitalProduct expectedProduct = new DigitalProduct(1, "TitleTest","AuthorTest","FormatTest");
-        Mockito.when(productRepository.getDigitalProduct(1)).thenReturn(expectedProduct);
+        DigitalResource expectedProduct = new EBook(1, "TestISBN", "TestTitle3",
+                "TestAuthor3", "TestNumPages", "TestFormat3");
+        Mockito.when(productRepository.getEbook(1)).thenReturn((EBook) expectedProduct);
 
         //When
-        DigitalProduct actualProduct = getDigitalProductUseCase.execute(1);
+        DigitalResource actualProduct = getDigitalResourceUseCase.execute(1);
 
         //Then
         Assertions.assertEquals(expectedProduct.id , actualProduct.id);
@@ -45,10 +46,10 @@ class GetDigitalProductUseCaseTest {
     @Test
     public void cuandoSeBuscaIdDeProductoDigitalNoExistenteDarNull(){
         //Given
-        Mockito.when(productRepository.getDigitalProduct(-999)).thenReturn(null);
+        Mockito.when(productRepository.getEbook(-999)).thenReturn(null);
 
         //When
-        DigitalProduct actualProduct = getDigitalProductUseCase.execute(-999);
+        DigitalResource actualProduct = getDigitalResourceUseCase.execute(-999);
 
         //Then
         Assertions.assertNull(actualProduct , "No debió recuperarse ningún producto");

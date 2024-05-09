@@ -1,6 +1,6 @@
 package com.iesam.digitalLibrary.features;
 
-import com.iesam.digitalLibrary.features.digitalProduct.presentation.DigitalProductPresentation;
+import com.iesam.digitalLibrary.features.digitalResources.presentation.DigitalResourcePresentation;
 import com.iesam.digitalLibrary.features.user.presentation.UserPresentation;
 
 import java.util.Scanner;
@@ -26,8 +26,8 @@ public class Main {
                     UserMenu.displayUserMenu();
                     break;
                 case 2:
-                    DigitalProductPresentation digitalProductPresentation = new DigitalProductPresentation(sc);
-                    digitalProductPresentation.displayDigitalProductsMenu();
+                    DigitalResourcePresentation digitalResourcePresentation = new DigitalResourcePresentation(sc);
+                    digitalResourcePresentation.displayDigitalProductsMenu();
                     break;
                 case 3:
                     System.out.println("<Info> Cerrando Programa...");
