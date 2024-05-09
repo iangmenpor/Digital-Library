@@ -8,4 +8,5 @@ public interface DigitalProductRepository {
     DigitalProduct getDigitalProduct(Integer id);
     void deleteDigitalProduct(Integer id);
     List<DigitalProduct> getDigitalProducts();
+    void updateDigitalProduct(DigitalProduct model);
 }

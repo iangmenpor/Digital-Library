@@ -11,4 +11,6 @@ public interface DigitalProductDataSourceRepository {
     DigitalProduct findById(Integer modelId);
     void delete(Integer modelId);
     List<DigitalProduct> findAll();
+    void saveList(List<DigitalProduct> models);
+    void update(DigitalProduct model);
 }

@@ -29,10 +29,11 @@ public class DigitalProductFileDataSource implements DigitalProductDataSourceRep
         models.add(model);
         saveToFile(models);
     }
-
+    @Override
     public void saveList(List<DigitalProduct> models) {
         saveToFile(models);
     }
+
 
     private void saveToFile(List<DigitalProduct> models) {
         try {
@@ -89,5 +90,18 @@ public class DigitalProductFileDataSource implements DigitalProductDataSourceRep
             }
         }
         saveList(newList);
+    }
+    @Override
+    public void update(DigitalProduct model) {
+        List<DigitalProduct> products = findAll();
+        for (int i = 0; i < products.size(); i++) {
+            DigitalProduct existingProduct = products.get(i);
+            if (existingProduct.id.equals(model.id)) {
+                products.set(i, model); // Actualizar el producto
+                saveList(products); // Guardar la lista actualizada
+                return;
+            }
+        }
+        System.out.println("<!> Producto no encontrado para actualizar.");
     }
 }

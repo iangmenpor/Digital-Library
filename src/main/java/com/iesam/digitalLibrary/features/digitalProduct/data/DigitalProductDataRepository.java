@@ -3,6 +3,10 @@ package com.iesam.digitalLibrary.features.digitalProduct.data;
 import com.iesam.digitalLibrary.features.digitalProduct.data.local.DigitalProductDataSourceRepository;
 import com.iesam.digitalLibrary.features.digitalProduct.domain.DigitalProduct;
 import com.iesam.digitalLibrary.features.digitalProduct.domain.DigitalProductRepository;
+import com.iesam.digitalLibrary.features.digitalProduct.domain.EBook;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import java.util.List;
 
@@ -32,5 +36,10 @@ public class DigitalProductDataRepository implements DigitalProductRepository {
     @Override
     public List<DigitalProduct> getDigitalProducts() {
         return dataSourceRepository.findAll();
+    }
+
+    @Override
+    public void updateDigitalProduct(DigitalProduct model) {
+        dataSourceRepository.update(model);
     }
 }

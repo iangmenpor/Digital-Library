@@ -23,13 +23,12 @@ public class DigitalProductMemLocalDataSource implements DigitalProductDataSourc
     public void save(DigitalProduct model) {
         dataStore.put(model.id.toString(), model);
     }
-
+    @Override
     public void saveList(List<DigitalProduct> models) {
         for (DigitalProduct demo : models) {
             save(demo);
         }
     }
-
     @Override
     public DigitalProduct findById(Integer id) {
         return dataStore.get(id.toString());
@@ -42,4 +41,14 @@ public class DigitalProductMemLocalDataSource implements DigitalProductDataSourc
     public void delete(Integer modelId) {
         dataStore.remove(modelId.toString());
     }
+    @Override
+    public void update(DigitalProduct model) {
+        String productId = model.id.toString();
+        if (dataStore.containsKey(productId)) {
+            dataStore.put(productId, model); // Actualizar el producto en el mapa
+        } else {
+            System.out.println("<!> Producto no encontrado para actualizar.");
+        }
+    }
+
 }
