@@ -8,6 +8,8 @@ import com.iesam.digitalLibrary.features.digitalProduct.domain.EBook;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.List;
+
 public class DigitalProductDataRepository implements DigitalProductRepository {
 
     private final DigitalProductDataSourceRepository dataSourceRepository;
@@ -23,7 +25,7 @@ public class DigitalProductDataRepository implements DigitalProductRepository {
 
     @Override
     public DigitalProduct getDigitalProduct(Integer id) {
-            return dataSourceRepository.findById(id);
+        return dataSourceRepository.findById(id);
     }
 
     @Override
@@ -40,5 +42,4 @@ public class DigitalProductDataRepository implements DigitalProductRepository {
     public void updateDigitalProduct(DigitalProduct model) {
         dataSourceRepository.update(model);
     }
-
 }
