@@ -1,9 +1,9 @@
-package com.iesam.digitalLibrary.features.digitalProduct.data.local;
+package com.iesam.digitalLibrary.features.digitalResources.data.local;
 
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.iesam.digitalLibrary.features.digitalProduct.domain.DigitalProduct;
+import com.iesam.digitalLibrary.features.digitalResources.domain.EBook;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,27 +15,27 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 
-public class DigitalProductFileDataSource implements DigitalProductDataSourceRepository {
+public class EbookFileDataSource implements EBookDataSourceRepository {
 
-    private final String nameFile = "digitalProducts.txt";
+    private final String nameFile = "eBooks.txt";
 
     private final Gson gson = new Gson();
 
-    private final Type typeList = new TypeToken<ArrayList<DigitalProduct>>() {
+    private final Type typeList = new TypeToken<ArrayList<EBook>>() {
     }.getType();
     @Override
-    public void save(DigitalProduct model) {
-        List<DigitalProduct> models = findAll();
+    public void save(EBook model) {
+        List<EBook> models = findAll();
         models.add(model);
         saveToFile(models);
     }
     @Override
-    public void saveList(List<DigitalProduct> models) {
+    public void saveList(List<EBook> models) {
         saveToFile(models);
     }
 
 
-    private void saveToFile(List<DigitalProduct> models) {
+    private void saveToFile(List<EBook> models) {
         try {
             FileWriter myWriter = new FileWriter(nameFile);
             myWriter.write(gson.toJson(models));
@@ -48,9 +48,9 @@ public class DigitalProductFileDataSource implements DigitalProductDataSourceRep
     }
 
     @Override
-    public DigitalProduct findById(Integer id) {
-        List<DigitalProduct> models = findAll();
-        for (DigitalProduct model : models) {
+    public EBook findById(Integer id) {
+        List<EBook> models = findAll();
+        for (EBook model : models) {
             if (Objects.equals(model.id, id)) {
                 return model;
             }
@@ -58,7 +58,7 @@ public class DigitalProductFileDataSource implements DigitalProductDataSourceRep
         return null;
     }
     @Override
-    public List<DigitalProduct> findAll() {
+    public List<EBook> findAll() {
         try {
             File myObj = new File(nameFile);
             if (!myObj.exists()) {
@@ -82,9 +82,9 @@ public class DigitalProductFileDataSource implements DigitalProductDataSourceRep
     }
     @Override
     public void delete(Integer modelId) {
-        List<DigitalProduct> newList = new ArrayList<>();
-        List<DigitalProduct> models = findAll();
-        for (DigitalProduct model : models) {
+        List<EBook> newList = new ArrayList<>();
+        List<EBook> models = findAll();
+        for (EBook model : models) {
             if (model.id != modelId) {
                 newList.add(model);
             }
@@ -92,16 +92,16 @@ public class DigitalProductFileDataSource implements DigitalProductDataSourceRep
         saveList(newList);
     }
     @Override
-    public void update(DigitalProduct model) {
-        List<DigitalProduct> products = findAll();
+    public void update(EBook model) {
+        List<EBook> products = findAll();
         for (int i = 0; i < products.size(); i++) {
-            DigitalProduct existingProduct = products.get(i);
+            EBook existingProduct = products.get(i);
             if (existingProduct.id.equals(model.id)) {
                 products.set(i, model); // Actualizar el producto
                 saveList(products); // Guardar la lista actualizada
                 return;
             }
         }
-        System.out.println("<!> Producto no encontrado para actualizar.");
+        System.out.println("<!> Ebook no encontrado para actualizar.");
     }
 }

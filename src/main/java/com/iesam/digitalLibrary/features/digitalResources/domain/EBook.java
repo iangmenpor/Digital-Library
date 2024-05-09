@@ -1,6 +1,6 @@
-package com.iesam.digitalLibrary.features.digitalProduct.domain;
+package com.iesam.digitalLibrary.features.digitalResources.domain;
 
-public class EBook extends DigitalProduct {
+public class EBook extends DigitalResource {
 
     public final String isbn;
     public final String numPages;
