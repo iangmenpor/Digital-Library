@@ -19,15 +19,7 @@ public class UserPresentation {
     public void displayUserMenu() {
         int choice;
         do {
-            System.out.println();
-            System.out.println("+--------Menu de Usuario--------+");
-            System.out.println("1. Crear usuario");
-            System.out.println("2. Consultar un usuario");
-            System.out.println("3. Borrar un usuario");
-            System.out.println("4. Consultar lista de usuarios.");
-            System.out.println("5. Modificar datos de usuario.");
-            System.out.println("6. Volver a menú principal");
-            System.out.println("+-------------------------------+");
+            userMenu();
             System.out.print("> Ingrese su elección: ");
             choice = sc.nextInt();
             sc.nextLine(); // Consumir la nueva línea después del entero
@@ -57,10 +49,8 @@ public class UserPresentation {
         } while (choice != 6);
     }
     private static void saveUser() {
-        SaveUserUseCase saveUserUseCase = new SaveUserUseCase(dataRepository);
         int id;
         String name, surname, dni, email;
-
         System.out.print("-> Introduce un código de identificación (id): ");
         id = sc.nextInt();
         sc.nextLine(); //Consumo
@@ -74,18 +64,21 @@ public class UserPresentation {
         email = sc.nextLine();
 
         User newUser = new User (id,name,surname, dni, email);
-        saveUserUseCase.execute(newUser);
+        saveUser(newUser);
 
         System.out.println("<Info> Se ha guardado un usuario.\n> "+ newUser);
 
         sc.nextLine(); //Consumir nueva linea
     }
+    public static void saveUser(User model){
+        SaveUserUseCase saveUserUseCase = new SaveUserUseCase(dataRepository);
+        saveUserUseCase.execute(model);
+    }
     private static void getUser(){
         System.out.print("> Ingresa el ID del Usuario que deseas recuperar: ");
         int id = sc.nextInt();
         sc.nextLine(); // Consumir línea
-        GetUserUseCase getUserUseCase = new GetUserUseCase(dataRepository);
-        User recoveredUser = getUserUseCase.execute(id);
+        User recoveredUser = getUser(id);
         if (recoveredUser != null) {
             System.out.println("<Info> Recuperando información sobre el usuario con ID " + id);
             System.out.println("  > " + recoveredUser);
@@ -93,12 +86,15 @@ public class UserPresentation {
             System.err.println("\n<!> No se ha encontrado un Usuario con ese ID");
         }
     }
+    public static User getUser(Integer id){
+        GetUserUseCase getUserUseCase = new GetUserUseCase(dataRepository);
+        return getUserUseCase.execute(id);
+    }
     private static void deleteUser(){
         System.out.print("> Ingresa el ID del Usuario que deseas eliminar: ");
         int id = sc.nextInt();
         sc.nextLine();
-        GetUserUseCase getUserUseCase = new GetUserUseCase(dataRepository);
-        User userDeleted = getUserUseCase.execute(id);
+        User userDeleted = getUser(id);
         if (userDeleted != null) {
             System.out.println("- El usuario que estás a punto de eliminar es: " + userDeleted);
             System.out.println("  <Warning> Eliminar a un usuario es una acción permanente.");
@@ -108,8 +104,7 @@ public class UserPresentation {
             sc.nextLine(); //consumo
             switch (confirmation) {
                 case 'Y':
-                    DeleteUserUseCase deleteUserUseCase = new DeleteUserUseCase(dataRepository);
-                    deleteUserUseCase.execute(id);
+                    deleteUser(id);
                     System.out.println("<OK> Usuario eliminado.");
                     break;
                 case 'N':
@@ -121,6 +116,10 @@ public class UserPresentation {
         } else {
             System.err.println("<!> No se ha encontrado un Usuario con ese ID");
         }
+    }
+    public static void deleteUser(Integer id){
+        DeleteUserUseCase deleteUserUseCase = new DeleteUserUseCase(dataRepository);
+        deleteUserUseCase.execute(id);
     }
     private static List<User> getUsers(){
         GetUsersUseCase getUsersUseCase = new GetUsersUseCase(dataRepository);
@@ -137,15 +136,13 @@ public class UserPresentation {
         return allUsers;
     }
     private static void updateUser(){
-        GetUserUseCase getUserUseCase = new GetUserUseCase(dataRepository);
-        UpdateUserUseCase updateUserUseCase = new UpdateUserUseCase(dataRepository);
         String dni, name, surname, email;
         int id;
 
         System.out.print("-> Introduce el id del usuario que deseas actualizar: ");
         id = sc.nextInt();
 
-        User oldUser = getUserUseCase.execute(id);
+        User oldUser = getUser(id);
 
         if (oldUser != null) {
             System.out.println("<Info> Recuperando información sobre el usuario con ID " + id);
@@ -165,7 +162,7 @@ public class UserPresentation {
                     System.out.print("-> Introduce el nuevo Email: ");
                     email = sc.nextLine();
                     User updatedUser = new User (id,name,surname,dni,email);
-                    updateUserUseCase.execute(updatedUser);
+                    updateUser(updatedUser);
                     System.out.println("<OK> Datos actualizados.");
                     break;
                 case 'N':
@@ -178,5 +175,21 @@ public class UserPresentation {
             System.err.println("<!> No se ha encontrado un Usuario con ese ID");
         }
         sc.nextLine(); //consumo
+    }
+
+    public static void updateUser(User model){
+        UpdateUserUseCase updateUserUseCase = new UpdateUserUseCase(dataRepository);
+        updateUserUseCase.execute(model);
+    }
+    private static void userMenu(){
+        System.out.println();
+        System.out.println("+--------Menu de Usuario--------+");
+        System.out.println("1. Crear usuario");
+        System.out.println("2. Consultar un usuario");
+        System.out.println("3. Borrar un usuario");
+        System.out.println("4. Consultar lista de usuarios.");
+        System.out.println("5. Modificar datos de usuario.");
+        System.out.println("6. Volver a menú principal");
+        System.out.println("+-------------------------------+");
     }
 }
