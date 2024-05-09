@@ -1,6 +1,6 @@
 package com.iesam.digitalLibrary.features.digitalProduct.domain;
 
-public class DigitalProduct {
+public abstract class DigitalProduct {
 
     public final Integer id;
     public final String title;

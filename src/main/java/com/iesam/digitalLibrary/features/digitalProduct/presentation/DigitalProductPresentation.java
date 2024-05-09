@@ -46,12 +46,15 @@ public class DigitalProductPresentation {
                     getAllDigitalProductsPresentation();
                     break;
                 case 5:
+                    updateDigitalProductPresentation();
+                    break;
+                case 6:
                     System.out.println("<Info> Volviendo a menú principal...");
                     break;
                 default:
                     System.err.println("<!> Opción no valida. Vuelva a intentarlo.");
             }
-        } while (choice != 5);
+        } while (choice != 6);
     }
 
     private static void saveDigitalProduct() {
@@ -152,5 +155,83 @@ public class DigitalProductPresentation {
     public static List<DigitalProduct> getAllDigitalProducts(){
         GetDigitalProductsUseCase getDigitalProductsUseCase = new GetDigitalProductsUseCase(dataRepository);
         return getDigitalProductsUseCase.execute();
+    }
+    private static void updateDigitalProductPresentation(){
+        System.out.print("-> Introduce el id del producto que deseas actualizar: ");
+        int id = sc.nextInt();
+        DigitalProduct oldProduct = getDigitalProduct(id);
+        System.out.println(oldProduct.getClass().getSimpleName());
+        if (oldProduct == null) {
+            System.err.println("<!> No se ha encontrado un Producto Digital con ese ID");
+            return;
+        }
+
+        System.out.println("╔--------------------------------------------╗");
+        System.out.println("║        Seleccione el tipo de producto      ║");
+        System.out.println("║--------------------------------------------║");
+        System.out.println("║   [1] EBook                                ║");
+        System.out.println("║   [2] Otro tipo de producto                ║");
+        System.out.println("║                                            ║");
+        System.out.println("+--------------------------------------------+");
+        System.out.print("-> Seleccione una opción: ");
+        int option = sc.nextInt();
+        sc.nextLine(); // Consume el salto de línea
+
+        switch (option) {
+            case 1:
+                updateEBook(oldProduct);
+                break;
+            case 2:
+                System.out.println("-Más productos por venir!!!");
+                break;
+            default:
+                System.err.println("<!> Opción no válida.");
+                break;
+        }
+    }
+    private static void updateEBook(DigitalProduct oldProduct) {
+        if (oldProduct instanceof EBook) {
+            EBook ebook = (EBook) oldProduct; // Hace el casting a EBook
+            System.out.println(" > " + ebook); // Imprime la representación de eBook
+        } else {
+            System.out.println(" > " + oldProduct); // Si no es una instancia de EBook, imprime la representación de DigitalProduct
+        }
+        System.out.print("- ¿Deseas actualizar este libro?(Y|N): ");
+        char asw = sc.next().charAt(0);
+        char confirmation = Character.toUpperCase(asw);
+        sc.nextLine(); // Consume el salto de línea
+
+        switch (confirmation) {
+            case 'Y':
+                EBook eBookUpdated = captureEbookProductDetails(oldProduct);
+                updateDigitalProduct(eBookUpdated);
+                System.out.println("<OK> Datos actualizados.");
+                break;
+            case 'N':
+                System.out.println("<Info> Se ha cancelado la Actualización. Volviendo...");
+                break;
+            default:
+                System.err.println("<!> Opción no válida. Por favor introduce Y o N.");
+        }
+    }
+
+    private static EBook captureEbookProductDetails(DigitalProduct oldProduct) {
+        System.out.print("-> Nuevo ISBN:");
+        String isbn = sc.nextLine();
+        System.out.print("-> Nuevo título: ");
+        String title = sc.nextLine();
+        System.out.print("-> Nuevo autor: ");
+        String author = sc.nextLine();
+        System.out.print("-> Nueva numeración de páginas: ");
+        String numPages = sc.nextLine();
+        System.out.print("-> Nuevo formato: ");
+        String format = sc.nextLine();
+
+        // Devolver una instancia actualizada de DigitalProduct con los nuevos detalles
+        return new EBook(oldProduct.id, isbn, title, author, numPages, format);
+    }
+    public static void updateDigitalProduct(DigitalProduct model){
+        UpdateDigitalProductUseCase updateDigitalProductUseCase = new UpdateDigitalProductUseCase(dataRepository);
+        updateDigitalProductUseCase.execute(model);
     }
 }
