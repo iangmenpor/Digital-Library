@@ -31,7 +31,11 @@ public class LoanMemLocalDataSource implements LoanDataSourceRepository{
             save(demo);
         }
     }
+<<<<<<< feature/42/alta_prestamo
 
+=======
+    @Override
+>>>>>>> master
     public Loan findById(Integer id) {
         return dataStore.get(id.toString());
     }
