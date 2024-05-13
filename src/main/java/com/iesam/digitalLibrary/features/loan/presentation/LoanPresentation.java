@@ -31,7 +31,7 @@ public class LoanPresentation {
         int choice;
         do {
             System.out.println("\n+--------------------------------+");
-            System.out.println("|        Menú de Productos        |");
+            System.out.println("|        Menú de Prestamos.      |");
             System.out.println("+--------------------------------+");
             System.out.println("| 1. Dar de alta un Préstamo.    |");
             System.out.println("| 0. Volver a Menú Principal.    |");
