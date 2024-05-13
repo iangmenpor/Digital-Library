@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class UserPresentation {
 
     private static Scanner sc;
-    private static final UserDataRepository dataRepository =  new UserDataRepository(UserMemLocalDataSource.getInstance());
+    private static final UserDataRepository dataRepository =  new UserDataRepository(new UserFileDataSource());
 
     public UserPresentation(Scanner sc) { UserPresentation.sc = sc; }
 

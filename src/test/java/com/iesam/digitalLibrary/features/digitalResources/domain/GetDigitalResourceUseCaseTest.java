@@ -13,13 +13,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class GetDigitalResourceUseCaseTest {
 
     @Mock
-    private DigitalResourceRepository productRepository;
+    private DigitalResourceRepository<DigitalResource> digitalResourceRepository;
 
-    private GetDigitalResourceUseCase getDigitalResourceUseCase;
+    private GetDigitalResourceUseCase<DigitalResource> getDigitalResourceUseCase;
 
     @BeforeEach
     void setUp() {
-        getDigitalResourceUseCase = new GetDigitalResourceUseCase(productRepository);
+        getDigitalResourceUseCase = new GetDigitalResourceUseCase<>(digitalResourceRepository);
     }
 
     @AfterEach
@@ -32,26 +32,24 @@ class GetDigitalResourceUseCaseTest {
         //Given
         DigitalResource expectedProduct = new EBook(1, "TestISBN", "TestTitle3",
                 "TestAuthor3", "TestNumPages", "TestFormat3");
-        Mockito.when(productRepository.getEbook(1)).thenReturn((EBook) expectedProduct);
+        Mockito.when(digitalResourceRepository.getDigitalResource(1)).thenReturn(expectedProduct);
 
         //When
         DigitalResource actualProduct = getDigitalResourceUseCase.execute(1);
 
         //Then
-        Assertions.assertEquals(expectedProduct.id , actualProduct.id);
-        Assertions.assertEquals(expectedProduct.title , actualProduct.title);
-        Assertions.assertEquals(expectedProduct.author , actualProduct.author);
-        Assertions.assertEquals(expectedProduct.format , actualProduct.format);
+        Assertions.assertEquals(expectedProduct, actualProduct);
     }
+
     @Test
     public void cuandoSeBuscaIdDeProductoDigitalNoExistenteDarNull(){
         //Given
-        Mockito.when(productRepository.getEbook(-999)).thenReturn(null);
+        Mockito.when(digitalResourceRepository.getDigitalResource(-999)).thenReturn(null);
 
         //When
         DigitalResource actualProduct = getDigitalResourceUseCase.execute(-999);
 
         //Then
-        Assertions.assertNull(actualProduct , "No debió recuperarse ningún producto");
+        Assertions.assertNull(actualProduct, "No debió recuperarse ningún producto");
     }
 }

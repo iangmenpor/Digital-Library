@@ -13,13 +13,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class SaveDigitalResourceUseCaseTest {
 
     @Mock
-    private DigitalResourceRepository productRepository;
+    private DigitalResourceRepository<DigitalResource> digitalResourceRepository;
 
-    private SaveDigitalResourceUseCase saveDigitalResourceUseCase;
+    private SaveDigitalResourceUseCase<DigitalResource> saveDigitalResourceUseCase;
 
     @BeforeEach
     void setUp() {
-        saveDigitalResourceUseCase = new SaveDigitalResourceUseCase(productRepository);
+        saveDigitalResourceUseCase = new SaveDigitalResourceUseCase<>(digitalResourceRepository);
     }
 
     @AfterEach
@@ -37,6 +37,6 @@ class SaveDigitalResourceUseCaseTest {
         saveDigitalResourceUseCase.execute(productToSave);
 
         //Then
-        Mockito.verify(productRepository, Mockito.times(1)).saveEbook(productToSave);
+        Mockito.verify(digitalResourceRepository, Mockito.times(1)).saveDigitalResource(productToSave);
     }
 }

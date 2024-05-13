@@ -17,12 +17,13 @@ import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(MockitoExtension.class)
 class GetDigitalResourcesUseCaseTest {
     @Mock
-    private DigitalResourceRepository digitalResourceRepository;
+    private DigitalResourceRepository<DigitalResource> digitalResourceRepository;
 
-    private GetDigitalResourcesUseCase getDigitalResourcesUseCase;
+    private GetDigitalResourcesUseCase<DigitalResource> getDigitalResourcesUseCase;
+
     @BeforeEach
     void setUp() {
-        getDigitalResourcesUseCase = new GetDigitalResourcesUseCase(digitalResourceRepository);
+        getDigitalResourcesUseCase = new GetDigitalResourcesUseCase<>(digitalResourceRepository);
     }
 
     @AfterEach
@@ -31,31 +32,29 @@ class GetDigitalResourcesUseCaseTest {
     }
 
     @Test
-    public void cuandoSeSolicitaLaListaDeUsuariosSeDevuelveCorrectamente(){
+    public void cuandoSeSolicitaLaListaDeRecursosDigitalesSeDevuelveCorrectamente(){
         //Given
-        List<EBook> expectedProducts = Arrays.asList(
+        List<DigitalResource> expectedResources = Arrays.asList(
                 new EBook(1, "TestISBN1", "TestTitle1", "TestAuthor1", "TestNumPages1", "TestFormat1"),
                 new EBook(2, "TestISBN2", "TestTitle2", "TestAuthor2", "TestNumPages2", "TestFormat2"),
                 new EBook(3, "TestISBN3", "TestTitle3", "TestAuthor3", "TestNumPages3", "TestFormat3")
         );
-        Mockito.when(digitalResourceRepository.getEbooks()).thenReturn(expectedProducts);
+        Mockito.when(digitalResourceRepository.getDigitalResources()).thenReturn(expectedResources);
 
         //When
-        List<EBook> actualProducts = getDigitalResourcesUseCase.execute();
+        List<DigitalResource> actualResources = getDigitalResourcesUseCase.execute();
 
         //Then
-        Assertions.assertEquals(expectedProducts.size(), actualProducts.size());
+        Assertions.assertEquals(expectedResources.size(), actualResources.size());
 
-        for (int i = 0; i < expectedProducts.size(); i++){
-            EBook expectedEbook = expectedProducts.get(i);
-            EBook actualEbook = actualProducts.get(i);
+        for (int i = 0; i < expectedResources.size(); i++){
+            DigitalResource expectedResource = expectedResources.get(i);
+            DigitalResource actualResource = actualResources.get(i);
 
-            Assertions.assertEquals(expectedEbook.id, actualEbook.id);
-            Assertions.assertEquals(expectedEbook.title, actualEbook.title);
-            Assertions.assertEquals(expectedEbook.author, actualEbook.author);
-            Assertions.assertEquals(expectedEbook.isbn, actualEbook.isbn);
-            Assertions.assertEquals(expectedEbook.numPages, actualEbook.numPages);
-            Assertions.assertEquals(expectedEbook.format, actualEbook.format);
+            Assertions.assertEquals(expectedResource.id, actualResource.id);
+            Assertions.assertEquals(expectedResource.title, actualResource.title);
+            Assertions.assertEquals(expectedResource.author, actualResource.author);
+            Assertions.assertEquals(expectedResource.format, actualResource.format);
         }
     }
 }
