@@ -6,37 +6,37 @@ import com.iesam.digitalLibrary.features.digitalResources.domain.EBook;
 
 import java.util.List;
 
-public class DigitalResourceDataRepository implements DigitalResourceRepository {
+public class EbookDataRepository implements DigitalResourceRepository<EBook> {
 
     private final EBookDataSourceRepository eBookDataSourceRepository;
 
-    public DigitalResourceDataRepository(EBookDataSourceRepository dataSourceRepository) {
+    public EbookDataRepository(EBookDataSourceRepository dataSourceRepository) {
         this.eBookDataSourceRepository = dataSourceRepository;
     }
 
 
     @Override
-    public void saveEbook(EBook model) {
+    public void saveDigitalResource(EBook model) {
         eBookDataSourceRepository.save(model);
     }
 
     @Override
-    public EBook getEbook(Integer id) {
+    public EBook getDigitalResource(Integer id) {
         return eBookDataSourceRepository.findById(id);
     }
 
     @Override
-    public void deleteEbook(Integer id) {
+    public void deleteDigitalResource(Integer id) {
         eBookDataSourceRepository.delete(id);
     }
 
     @Override
-    public List<EBook> getEbooks() {
+    public List<EBook> getDigitalResources() {
         return eBookDataSourceRepository.findAll();
     }
 
     @Override
-    public void updateEbook(EBook model) {
+    public void updateDigitalResource(EBook model) {
         eBookDataSourceRepository.update(model);
     }
 }
