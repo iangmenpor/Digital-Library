@@ -2,15 +2,15 @@ package com.iesam.digitalLibrary.features.digitalResources.domain;
 
 import java.util.List;
 
-public class GetDigitalResourcesUseCase {
+public class GetDigitalResourcesUseCase <T extends DigitalResource> {
 
-    private final DigitalResourceRepository digitalResourceRepository;
+    private final DigitalResourceRepository<T> digitalResourceRepository;
 
-    public GetDigitalResourcesUseCase(DigitalResourceRepository digitalResourceRepository) {
+    public GetDigitalResourcesUseCase(DigitalResourceRepository<T> digitalResourceRepository) {
         this.digitalResourceRepository = digitalResourceRepository;
     }
 
-    public List<EBook> execute(){
-        return digitalResourceRepository.getEbooks();
+    public List<T> execute(){
+        return digitalResourceRepository.getDigitalResources();
     }
 }

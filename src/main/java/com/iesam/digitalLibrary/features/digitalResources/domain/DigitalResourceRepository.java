@@ -2,11 +2,11 @@ package com.iesam.digitalLibrary.features.digitalResources.domain;
 
 import java.util.List;
 
-public interface DigitalResourceRepository {
+public interface DigitalResourceRepository<E extends DigitalResource> {
 
-    void saveEbook(EBook model);
-    EBook getEbook(Integer id);
-    void deleteEbook(Integer id);
-    List<EBook> getEbooks();
-    void updateEbook(EBook model);
+    void saveDigitalResource(E model);
+    E getDigitalResource(Integer id);
+    void deleteDigitalResource(Integer id);
+    List<E> getDigitalResources();
+    void updateDigitalResource(E model);
 }

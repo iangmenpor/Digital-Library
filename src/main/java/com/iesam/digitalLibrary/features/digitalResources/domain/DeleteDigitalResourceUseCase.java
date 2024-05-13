@@ -1,14 +1,14 @@
 package com.iesam.digitalLibrary.features.digitalResources.domain;
 
-public class DeleteDigitalResourceUseCase {
+public class DeleteDigitalResourceUseCase <T extends DigitalResource>  {
 
-    private final DigitalResourceRepository digitalResourceRepository;
+    private final DigitalResourceRepository<T> digitalResourceRepository;
 
-    public DeleteDigitalResourceUseCase(DigitalResourceRepository digitalResourceRepository) {
+    public DeleteDigitalResourceUseCase(DigitalResourceRepository<T> digitalResourceRepository) {
         this.digitalResourceRepository = digitalResourceRepository;
     }
 
     public void execute(Integer id){
-        digitalResourceRepository.deleteEbook(id);
+        digitalResourceRepository.deleteDigitalResource(id);
     }
 }

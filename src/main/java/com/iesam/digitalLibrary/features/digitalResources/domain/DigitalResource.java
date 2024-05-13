@@ -1,6 +1,6 @@
 package com.iesam.digitalLibrary.features.digitalResources.domain;
 
-public abstract class DigitalResource {
+public class DigitalResource {
 
     public final Integer id;
     public final String title;

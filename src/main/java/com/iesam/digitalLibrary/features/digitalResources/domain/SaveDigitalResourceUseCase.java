@@ -1,14 +1,14 @@
 package com.iesam.digitalLibrary.features.digitalResources.domain;
 
-public class SaveDigitalResourceUseCase {
+public class SaveDigitalResourceUseCase <T extends DigitalResource> {
 
-    private final DigitalResourceRepository digitalResourceRepository;
+    private final DigitalResourceRepository<T> digitalResourceRepository;
 
-    public SaveDigitalResourceUseCase(DigitalResourceRepository digitalResourceRepository) {
+    public SaveDigitalResourceUseCase(DigitalResourceRepository<T> digitalResourceRepository) {
         this.digitalResourceRepository = digitalResourceRepository;
     }
 
-    public void execute(EBook model){
-        digitalResourceRepository.saveEbook(model);
+    public void execute(T model){
+        digitalResourceRepository.saveDigitalResource(model);
     }
 }
