@@ -16,12 +16,14 @@ public class LoanDataRepository implements LoanRepository {
     public void saveLoan(Loan model) {
         dataSourceRepository.save(model);
     }
-<<<<<<< feature/42/alta_prestamo
-=======
+
+    @Override
+    public void deleteLoan(Integer id) {
+        dataSourceRepository.delete(id);
+    }
 
     @Override
     public Loan getLoan(Integer id) {
         return dataSourceRepository.findById(id);
     }
->>>>>>> master
 }

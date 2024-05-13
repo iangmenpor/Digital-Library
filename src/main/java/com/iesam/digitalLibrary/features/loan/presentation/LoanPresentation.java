@@ -6,8 +6,8 @@ import com.iesam.digitalLibrary.features.digitalResources.domain.EBook;
 import com.iesam.digitalLibrary.features.digitalResources.presentation.DigitalResourcePresentation;
 import com.iesam.digitalLibrary.features.loan.data.LoanDataRepository;
 import com.iesam.digitalLibrary.features.loan.data.local.LoanFileDataSource;
+import com.iesam.digitalLibrary.features.loan.domain.DeleteLoanUseCase;
 import com.iesam.digitalLibrary.features.loan.domain.GetLoanUseCase;
-
 import com.iesam.digitalLibrary.features.loan.domain.Loan;
 import com.iesam.digitalLibrary.features.loan.domain.SaveLoanUseCase;
 import com.iesam.digitalLibrary.features.user.domain.User;
@@ -36,6 +36,7 @@ public class LoanPresentation {
             System.out.println("|        Menú de Prestamos.      |");
             System.out.println("+--------------------------------+");
             System.out.println("| 1. Dar de alta un Préstamo.    |");
+            System.out.println("| 2. Dar de baja un Préstamo.    |");
             System.out.println("| 0. Volver a Menú Principal.    |");
             System.out.println("+--------------------------------+");
             System.out.print("> Ingrese su elección:");
@@ -47,6 +48,9 @@ public class LoanPresentation {
                     break;
                 case 1:
                     saveLoanPresentation();
+                    break;
+                case 2:
+                    deleteLoanPresentation();
                     break;
                 default:
                     System.err.println("<!> Opción no válida. Vuelva a intentarlo.");
@@ -141,6 +145,25 @@ public class LoanPresentation {
     public static void saveLoan(Loan model) {
         SaveLoanUseCase saveLoanUseCase = new SaveLoanUseCase(dataRepository);
         saveLoanUseCase.execute(model);
+    }
+
+
+    private static void deleteLoanPresentation(){
+        System.out.print("-> Introduce el ID del préstamo a eliminar: ");
+        int id = sc.nextInt();
+        sc.nextLine();
+        Loan loan = getLoan(id);
+        if (loan != null){
+            deleteLoan(id);
+            System.out.println("<OK> Préstamo Borrado.");
+        } else {
+            System.err.println("<!> No se ha encontrado préstamo con ese ID");
+        }
+    }
+
+    public static void deleteLoan(Integer id){
+        DeleteLoanUseCase deleteLoanUseCase = new DeleteLoanUseCase(dataRepository);
+        deleteLoanUseCase.execute(id);
     }
 
     public static Loan getLoan(Integer id){

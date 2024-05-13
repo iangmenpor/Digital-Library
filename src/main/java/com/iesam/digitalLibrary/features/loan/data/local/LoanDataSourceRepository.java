@@ -5,9 +5,6 @@ import com.iesam.digitalLibrary.features.loan.domain.Loan;
 public interface LoanDataSourceRepository {
 
     void save(Loan model);
-<<<<<<< feature/42/alta_prestamo
-=======
-
+    void delete(Integer id);
     Loan findById(Integer id);
->>>>>>> master
 }

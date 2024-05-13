@@ -31,11 +31,8 @@ public class LoanMemLocalDataSource implements LoanDataSourceRepository{
             save(demo);
         }
     }
-<<<<<<< feature/42/alta_prestamo
 
-=======
     @Override
->>>>>>> master
     public Loan findById(Integer id) {
         return dataStore.get(id.toString());
     }
@@ -44,6 +41,7 @@ public class LoanMemLocalDataSource implements LoanDataSourceRepository{
         return dataStore.values().stream().toList();
     }
 
+    @Override
     public void delete(Integer modelId) {
         dataStore.remove(modelId.toString());
     }
@@ -51,7 +49,7 @@ public class LoanMemLocalDataSource implements LoanDataSourceRepository{
     public void update(Loan model) {
         String productId = model.id.toString();
         if (dataStore.containsKey(productId)) {
-            dataStore.put(productId, model); // Actualizar el producto en el mapa
+            dataStore.put(productId, model);
         } else {
             System.out.println("<!> Producto no encontrado para actualizar.");
         }
