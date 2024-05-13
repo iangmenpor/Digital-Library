@@ -6,10 +6,7 @@ import com.iesam.digitalLibrary.features.digitalResources.domain.EBook;
 import com.iesam.digitalLibrary.features.digitalResources.presentation.DigitalResourcePresentation;
 import com.iesam.digitalLibrary.features.loan.data.LoanDataRepository;
 import com.iesam.digitalLibrary.features.loan.data.local.LoanFileDataSource;
-import com.iesam.digitalLibrary.features.loan.domain.DeleteLoanUseCase;
-import com.iesam.digitalLibrary.features.loan.domain.GetLoanUseCase;
-import com.iesam.digitalLibrary.features.loan.domain.Loan;
-import com.iesam.digitalLibrary.features.loan.domain.SaveLoanUseCase;
+import com.iesam.digitalLibrary.features.loan.domain.*;
 import com.iesam.digitalLibrary.features.user.domain.User;
 import com.iesam.digitalLibrary.features.user.presentation.UserPresentation;
 
@@ -37,6 +34,7 @@ public class LoanPresentation {
             System.out.println("+--------------------------------+");
             System.out.println("| 1. Dar de alta un Préstamo.    |");
             System.out.println("| 2. Dar de baja un Préstamo.    |");
+            System.out.println("| 3. Consultar Préstamos.        |");
             System.out.println("| 0. Volver a Menú Principal.    |");
             System.out.println("+--------------------------------+");
             System.out.print("> Ingrese su elección:");
@@ -51,6 +49,9 @@ public class LoanPresentation {
                     break;
                 case 2:
                     deleteLoanPresentation();
+                    break;
+                case 3:
+                    getLoansPresentation();
                     break;
                 default:
                     System.err.println("<!> Opción no válida. Vuelva a intentarlo.");
@@ -135,8 +136,18 @@ public class LoanPresentation {
         // Captura de la devolución anticipada
         System.out.print("-> ¿Se ha devuelto antes de tiempo? (Y/N): ");
         boolean earlyReturn = sc.next().equalsIgnoreCase("Y");
+        sc.nextLine();
 
-        Loan newLoan = new Loan(id, user, digitalResources, startDate, null, earlyReturn);
+        Date endDate = null;
+        if (earlyReturn){
+                try {
+                    System.out.print("-> Ingrese la fecha de fin del préstamo (YYYY-MM-DD): ");
+                    endDate = dateFormat.parse(sc.nextLine());
+                } catch (ParseException e) {
+                    System.err.println("<!> Formato de fecha incorrecto. Use el formato año-mes-día.");
+                }
+        }
+        Loan newLoan = new Loan(id, user, digitalResources, startDate, endDate, earlyReturn);
         saveLoan(newLoan);
         System.out.println("> PRÉSTAMO:");
         System.out.println("> " + newLoan);
@@ -161,6 +172,33 @@ public class LoanPresentation {
         }
     }
 
+    private static void getLoansPresentation(){
+        int option;
+        do {
+            System.out.println("\n+-----------------------------+");
+            System.out.println("| [1] Préstamos en progreso.  |");
+            System.out.println("| [0] Préstamos devueltos  .  |");
+            System.out.println("+-----------------------------+");
+            System.out.print(" -> Ingresa la lista que deseas ver: ");
+            option = sc.nextInt();
+            sc.nextLine();
+
+            switch (option){
+                case 0:
+                    List<Loan> ongoingLoans = getOngoingLoans();
+                    ongoingLoans.forEach(System.out::println);
+                    break;
+                case 1:
+                    List<Loan> completedLoans = getCompletedLoans();
+                    completedLoans.forEach(System.out::println);
+                    break;
+                default:
+                    System.err.println("<!> Opción no valida. Vuelva a intentarlo.");
+                    break;
+            }
+        } while (option != 0 );
+    }
+
     public static void deleteLoan(Integer id){
         DeleteLoanUseCase deleteLoanUseCase = new DeleteLoanUseCase(dataRepository);
         deleteLoanUseCase.execute(id);
@@ -169,5 +207,15 @@ public class LoanPresentation {
     public static Loan getLoan(Integer id){
         GetLoanUseCase getLoanUseCase = new GetLoanUseCase(dataRepository);
         return getLoanUseCase.execute(id);
+    }
+
+    public static List<Loan> getOngoingLoans(){
+        GetOngoingLoansUseCase getOngoingLoansUseCase = new GetOngoingLoansUseCase(dataRepository);
+        return getOngoingLoansUseCase.execute();
+    }
+
+    public static List<Loan> getCompletedLoans(){
+        GetCompletedLoansUseCase getCompletedLoansUseCase = new GetCompletedLoansUseCase(dataRepository);
+        return  getCompletedLoansUseCase.execute();
     }
 }

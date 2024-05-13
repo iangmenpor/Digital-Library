@@ -4,6 +4,7 @@ package com.iesam.digitalLibrary.features.loan.data.local;
 
 import com.iesam.digitalLibrary.features.loan.domain.Loan;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -51,8 +52,27 @@ public class LoanMemLocalDataSource implements LoanDataSourceRepository{
         if (dataStore.containsKey(productId)) {
             dataStore.put(productId, model);
         } else {
-            System.out.println("<!> Producto no encontrado para actualizar.");
+            System.out.println("<!> Préstamo no encontrado para actualizar.");
         }
     }
-
+    @Override
+    public List<Loan> findCompletedLoans() {
+        List<Loan> completedLoans = new ArrayList<>();
+        for (Loan loan : dataStore.values()) {
+            if (loan.isReturned()) {
+                completedLoans.add(loan);
+            }
+        }
+        return completedLoans;
+    }
+    @Override
+    public List<Loan> findOngoingLoans() {
+        List<Loan> ongoingLoans = new ArrayList<>();
+        for (Loan loan : dataStore.values()) {
+            if (!loan.isReturned()) {
+                ongoingLoans.add(loan);
+            }
+        }
+        return ongoingLoans;
+    }
 }

@@ -103,6 +103,32 @@ public class LoanFileDataSource implements LoanDataSourceRepository {
                 return;
             }
         }
-        System.out.println("<!> Ebook no encontrado para actualizar.");
+        System.out.println("<!> Préstamo no encontrado para actualizar.");
+    }
+    @Override
+    public List<Loan> findCompletedLoans() {
+        List<Loan> allLoans = findAll();
+        List<Loan> completedLoans = new ArrayList<>();
+
+        for (Loan loan : allLoans) {
+            if (loan.isReturned()) {
+                completedLoans.add(loan);
+            }
+        }
+
+        return completedLoans;
+    }
+    @Override
+    public List<Loan> findOngoingLoans() {
+        List<Loan> allLoans = findAll();
+        List<Loan> ongoingLoans = new ArrayList<>();
+
+        for (Loan loan : allLoans) {
+            if (!loan.isReturned()) {
+                ongoingLoans.add(loan);
+            }
+        }
+
+        return ongoingLoans;
     }
 }
