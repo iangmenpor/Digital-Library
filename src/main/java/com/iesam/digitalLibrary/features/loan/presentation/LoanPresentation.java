@@ -6,6 +6,8 @@ import com.iesam.digitalLibrary.features.digitalResources.domain.EBook;
 import com.iesam.digitalLibrary.features.digitalResources.presentation.DigitalResourcePresentation;
 import com.iesam.digitalLibrary.features.loan.data.LoanDataRepository;
 import com.iesam.digitalLibrary.features.loan.data.local.LoanFileDataSource;
+import com.iesam.digitalLibrary.features.loan.domain.DeleteLoanUseCase;
+import com.iesam.digitalLibrary.features.loan.domain.GetLoanUseCase;
 import com.iesam.digitalLibrary.features.loan.domain.Loan;
 import com.iesam.digitalLibrary.features.loan.domain.SaveLoanUseCase;
 import com.iesam.digitalLibrary.features.user.domain.User;
@@ -139,6 +141,19 @@ public class LoanPresentation {
     public static void saveLoan(Loan model) {
         SaveLoanUseCase saveLoanUseCase = new SaveLoanUseCase(dataRepository);
         saveLoanUseCase.execute(model);
+    }
+
+    private static void deleteLoanPresentation(){
+        System.out.println("-> Introduce el ID del préstamo a eliminar: ");
+    }
+
+    public static void deleteLoan(Integer id){
+        DeleteLoanUseCase deleteLoanUseCase = new DeleteLoanUseCase(dataRepository);
+        deleteLoanUseCase.execute(id);
+    }
+    public static Loan getLoan(Integer id){
+        GetLoanUseCase getLoanUseCase = new GetLoanUseCase(dataRepository);
+        return getLoanUseCase.execute(id);
     }
 
 }
