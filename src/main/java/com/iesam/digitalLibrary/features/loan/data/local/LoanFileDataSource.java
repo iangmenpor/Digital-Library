@@ -47,7 +47,11 @@ public class LoanFileDataSource implements LoanDataSourceRepository {
         }
     }
 
+<<<<<<< feature/42/alta_prestamo
+
+=======
     @Override
+>>>>>>> master
     public Loan findById(Integer id) {
         List<Loan> models = findAll();
         for (Loan model : models) {
