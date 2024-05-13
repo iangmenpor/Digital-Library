@@ -147,6 +147,7 @@ public class LoanPresentation {
         saveLoanUseCase.execute(model);
     }
 
+
     private static void deleteLoanPresentation(){
         System.out.print("-> Introduce el ID del préstamo a eliminar: ");
         int id = sc.nextInt();
@@ -164,9 +165,9 @@ public class LoanPresentation {
         DeleteLoanUseCase deleteLoanUseCase = new DeleteLoanUseCase(dataRepository);
         deleteLoanUseCase.execute(id);
     }
+
     public static Loan getLoan(Integer id){
         GetLoanUseCase getLoanUseCase = new GetLoanUseCase(dataRepository);
         return getLoanUseCase.execute(id);
     }
-
 }
