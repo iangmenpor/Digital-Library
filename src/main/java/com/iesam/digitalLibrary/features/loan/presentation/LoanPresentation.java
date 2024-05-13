@@ -6,6 +6,7 @@ import com.iesam.digitalLibrary.features.digitalResources.domain.EBook;
 import com.iesam.digitalLibrary.features.digitalResources.presentation.DigitalResourcePresentation;
 import com.iesam.digitalLibrary.features.loan.data.LoanDataRepository;
 import com.iesam.digitalLibrary.features.loan.data.local.LoanFileDataSource;
+import com.iesam.digitalLibrary.features.loan.domain.GetLoanUseCase;
 import com.iesam.digitalLibrary.features.loan.domain.Loan;
 import com.iesam.digitalLibrary.features.loan.domain.SaveLoanUseCase;
 import com.iesam.digitalLibrary.features.user.domain.User;
@@ -141,4 +142,8 @@ public class LoanPresentation {
         saveLoanUseCase.execute(model);
     }
 
+    public static Loan getLoan(Integer id){
+        GetLoanUseCase getLoanUseCase = new GetLoanUseCase(dataRepository);
+        return getLoanUseCase.execute(id);
+    }
 }
