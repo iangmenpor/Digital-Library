@@ -39,4 +39,9 @@ public class LoanDataRepository implements LoanRepository {
     public List<Loan> getOngoingLoans() {
         return dataSourceRepository.findOngoingLoans();
     }
+
+    @Override
+    public void updateLoan(Loan model) {
+        dataSourceRepository.update(model);
+    }
 }

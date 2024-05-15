@@ -9,4 +9,5 @@ public interface LoanRepository {
     Loan getLoan(Integer id);
     List<Loan> getCompletedLoans();
     List<Loan> getOngoingLoans();
+    void updateLoan(Loan model);
 }
