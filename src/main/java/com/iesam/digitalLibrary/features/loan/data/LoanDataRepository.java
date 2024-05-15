@@ -21,6 +21,7 @@ public class LoanDataRepository implements LoanRepository {
 
     @Override
     public void deleteLoan(Integer id) {
+
         dataSourceRepository.delete(id);
     }
 
