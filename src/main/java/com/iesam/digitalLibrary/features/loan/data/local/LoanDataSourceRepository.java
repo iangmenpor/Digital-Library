@@ -11,4 +11,5 @@ public interface LoanDataSourceRepository {
     Loan findById(Integer id);
     List<Loan> findOngoingLoans();
     List<Loan> findCompletedLoans();
+    void update(Loan model);
 }
