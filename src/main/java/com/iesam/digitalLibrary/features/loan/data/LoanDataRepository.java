@@ -4,6 +4,8 @@ import com.iesam.digitalLibrary.features.loan.data.local.LoanDataSourceRepositor
 import com.iesam.digitalLibrary.features.loan.domain.Loan;
 import com.iesam.digitalLibrary.features.loan.domain.LoanRepository;
 
+import java.util.List;
+
 public class LoanDataRepository implements LoanRepository {
 
     private final LoanDataSourceRepository dataSourceRepository;
@@ -19,11 +21,22 @@ public class LoanDataRepository implements LoanRepository {
 
     @Override
     public void deleteLoan(Integer id) {
+
         dataSourceRepository.delete(id);
     }
 
     @Override
     public Loan getLoan(Integer id) {
         return dataSourceRepository.findById(id);
+    }
+
+    @Override
+    public List<Loan> getCompletedLoans() {
+        return dataSourceRepository.findCompletedLoans();
+    }
+
+    @Override
+    public List<Loan> getOngoingLoans() {
+        return dataSourceRepository.findOngoingLoans();
     }
 }
