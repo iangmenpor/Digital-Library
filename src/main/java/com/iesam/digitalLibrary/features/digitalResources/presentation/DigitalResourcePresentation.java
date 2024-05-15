@@ -64,7 +64,7 @@ public class DigitalResourcePresentation {
     }
 
     public static void availableResourcesMenu(){
-        System.out.println("╔--------------------------------------------╗");
+        System.out.println("\n╔--------------------------------------------╗");
         System.out.println("║        Seleccione el tipo de producto      ║");
         System.out.println("╠--------------------------------------------╣");
         System.out.println("║   [1] EBook.                               ║");

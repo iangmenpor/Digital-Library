@@ -21,7 +21,6 @@ public class LoanDataRepository implements LoanRepository {
 
     @Override
     public void deleteLoan(Integer id) {
-
         dataSourceRepository.delete(id);
     }
 
@@ -38,5 +37,10 @@ public class LoanDataRepository implements LoanRepository {
     @Override
     public List<Loan> getOngoingLoans() {
         return dataSourceRepository.findOngoingLoans();
+    }
+
+    @Override
+    public void updateLoan(Loan model) {
+        dataSourceRepository.update(model);
     }
 }
