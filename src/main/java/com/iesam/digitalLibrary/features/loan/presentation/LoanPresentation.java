@@ -10,8 +10,7 @@ import com.iesam.digitalLibrary.features.loan.domain.*;
 import com.iesam.digitalLibrary.features.user.domain.User;
 import com.iesam.digitalLibrary.features.user.presentation.UserPresentation;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -35,6 +34,7 @@ public class LoanPresentation {
             System.out.println("| 1. Dar de alta un Préstamo.    |");
             System.out.println("| 2. Dar de baja un Préstamo.    |");
             System.out.println("| 3. Consultar Préstamos.        |");
+            System.out.println("| 4. Finalizar un Préstamo.      |");
             System.out.println("| 0. Volver a Menú Principal.    |");
             System.out.println("+--------------------------------+");
             System.out.print("> Ingrese su elección:");
@@ -53,6 +53,9 @@ public class LoanPresentation {
                 case 3:
                     getLoansPresentation();
                     break;
+                case 4:
+                    endLoan();
+                    break;
                 default:
                     System.err.println("<!> Opción no válida. Vuelva a intentarlo.");
                     break;
@@ -66,7 +69,7 @@ public class LoanPresentation {
         sc.nextLine();
 
         ArrayList<DigitalResource> digitalResources = new ArrayList<>();
-        User user = null;
+        User user;
 
         // Captura de usuario válido
         do {
@@ -120,34 +123,8 @@ public class LoanPresentation {
             }
         } while (option != 0);
 
-        // Captura de la fecha inicial del préstamo
-        Date startDate = null;
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        for (;;) {
-            try {
-                System.out.print("-> Ingrese la fecha inicial del préstamo (YYYY-MM-DD): ");
-                startDate = dateFormat.parse(sc.nextLine());
-                break;
-            } catch (ParseException e) {
-                System.err.println("<!> Formato de fecha incorrecto. Use el formato año-mes-día.");
-            }
-        }
 
-        // Captura de la devolución anticipada
-        System.out.print("-> ¿Se ha devuelto antes de tiempo? (Y/N): ");
-        boolean earlyReturn = sc.next().equalsIgnoreCase("Y");
-        sc.nextLine();
-
-        Date endDate = null;
-        if (earlyReturn){
-                try {
-                    System.out.print("-> Ingrese la fecha de fin del préstamo (YYYY-MM-DD): ");
-                    endDate = dateFormat.parse(sc.nextLine());
-                } catch (ParseException e) {
-                    System.err.println("<!> Formato de fecha incorrecto. Use el formato año-mes-día.");
-                }
-        }
-        Loan newLoan = new Loan(id, user, digitalResources, startDate, endDate, earlyReturn);
+        Loan newLoan = new Loan(id, user, digitalResources,null);
         saveLoan(newLoan);
         System.out.println("> PRÉSTAMO:");
         System.out.println("> " + newLoan);
@@ -177,20 +154,26 @@ public class LoanPresentation {
         do {
             System.out.println("\n+-----------------------------+");
             System.out.println("| [1] Préstamos en progreso.  |");
-            System.out.println("| [0] Préstamos devueltos  .  |");
+            System.out.println("| [2] Préstamos finalizados.  |");
+            System.out.println("| [0] Cancelar.               |");
             System.out.println("+-----------------------------+");
-            System.out.print(" -> Ingresa la lista que deseas ver: ");
+            System.out.print("> Ingresa la lista que deseas ver: ");
             option = sc.nextInt();
             sc.nextLine();
 
             switch (option){
                 case 0:
-                    List<Loan> ongoingLoans = getOngoingLoans();
-                    ongoingLoans.forEach(System.out::println);
+                    System.out.println("<EXIT> Volviendo...");
                     break;
                 case 1:
+                    List<Loan> ongoingLoans = getOngoingLoans();
+                    ongoingLoans.forEach(System.out::println);
+                    System.out.println("- Prestamos en Proceso: " + ongoingLoans.size());
+                    break;
+                case 2:
                     List<Loan> completedLoans = getCompletedLoans();
                     completedLoans.forEach(System.out::println);
+                    System.out.println("- Prestamos finalizados: " + completedLoans.size());
                     break;
                 default:
                     System.err.println("<!> Opción no valida. Vuelva a intentarlo.");
@@ -199,6 +182,41 @@ public class LoanPresentation {
         } while (option != 0 );
     }
 
+    public static void endLoan(){
+        Loan loan;
+        do {
+            System.out.print("\n-> Introduce el ID del préstamo a finalizar: ");
+            int id = sc.nextInt();
+            sc.nextLine();
+            loan = getLoan(id);
+            Date date = new Date();
+
+            if (loan != null) {
+                System.out.println("[INFO] Recuperado el préstamo: " + loan);
+                System.out.print("- ¿Estas seguro de querer finalizar este préstamo hoy " + date + " ? [Y|N]: ");
+                char choice = sc.next().charAt(0);
+                choice = Character.toUpperCase(choice);
+                switch (choice) {
+                    case 'Y':
+                        updateLoan(new Loan(loan.id, loan.user, loan.digitalResources, date));
+                        System.out.println("[INFO] Se ha finalizado el préstamo: " + loan);
+                        System.out.println("- Fecha de finalización :" + date);
+                        break;
+
+                    case 'N':
+                        System.out.println("[Exit] Cancelado.");
+                        break;
+                    default:
+                        System.err.println("[ERR] Opción no valida. Se ha cancelado por defecto.");
+                        break;
+                }
+            } else {
+                System.err.println("[!] No se ha encontrado un préstamo con ese ID. Vuelva a intentarlo");
+            }
+
+        } while (loan == null);
+
+    }
     public static void deleteLoan(Integer id){
         DeleteLoanUseCase deleteLoanUseCase = new DeleteLoanUseCase(dataRepository);
         deleteLoanUseCase.execute(id);
@@ -217,5 +235,9 @@ public class LoanPresentation {
     public static List<Loan> getCompletedLoans(){
         GetCompletedLoansUseCase getCompletedLoansUseCase = new GetCompletedLoansUseCase(dataRepository);
         return  getCompletedLoansUseCase.execute();
+    }
+    public static void updateLoan(Loan model){
+        UpdateLoanUseCase updateLoanUseCase = new UpdateLoanUseCase(dataRepository);
+        updateLoanUseCase.execute(model);
     }
 }
