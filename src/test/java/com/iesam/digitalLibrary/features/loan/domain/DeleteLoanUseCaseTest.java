@@ -38,5 +38,4 @@ class DeleteLoanUseCaseTest {
         Mockito.verify(loanRepository, Mockito.times(1)).deleteLoan(validID);
     }
 
-
 }
