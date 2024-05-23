@@ -10,7 +10,7 @@ import java.util.TreeMap;
 
 public class UserMemLocalDataSource implements DataSourceRepository{
 
-    private Map<String, User> dataStore = new TreeMap<>();
+    private final Map<String, User> dataStore = new TreeMap<>();
     private static UserMemLocalDataSource instance = null;
 
 
@@ -42,5 +42,14 @@ public class UserMemLocalDataSource implements DataSourceRepository{
     @Override
     public void delete(Integer modelId) {
         dataStore.remove(modelId.toString());
+    }
+    @Override
+    public void update(User model) {
+        String userId = model.id.toString();
+        if (dataStore.containsKey(userId)) {
+            dataStore.put(userId, model);
+        } else {
+            System.out.println("[!] Usuario no encontrado para actualizar.");
+        }
     }
 }
