@@ -11,4 +11,5 @@ public interface DataSourceRepository {
     void delete(Integer modelId);
     List<User> findAll();
     void saveList(List<User> models);
+    void update(User model);
 }

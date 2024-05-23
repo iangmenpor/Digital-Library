@@ -1,29 +1,31 @@
 package com.iesam.digitalLibrary.features.user.domain;
 
-import com.iesam.digitalLibrary.features.user.data.StubUserDataRepository;
-import com.iesam.digitalLibrary.features.user.data.local.StubUserMemLocalDataSource;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 import java.util.List;
-
-
+@ExtendWith(MockitoExtension.class)
 class GetUsersUseCaseTest {
 
+    @Mock
+    private UserRepository userRepository;
     private GetUsersUseCase getUsersUseCase;
-    private StubUserDataRepository stubUserDataRepository;
 
     @BeforeEach
     void setUp() {
+        getUsersUseCase = new GetUsersUseCase(userRepository);
     }
 
     @AfterEach
     void tearDown() {
         getUsersUseCase = null;
-        stubUserDataRepository = null;
     }
 
     @Test
@@ -34,26 +36,13 @@ class GetUsersUseCaseTest {
                 new User(2, "TestName2", "TestSurname2", "TestDNI2", "TestEmail2"),
                 new User(3, "TestName3", "TestSurname3", "TestDNI3", "TestEmail3")
         );
-      
-        stubUserDataRepository = new StubUserDataRepository(StubUserMemLocalDataSource.getInstance());
-        getUsersUseCase = new GetUsersUseCase(stubUserDataRepository);
-
-        for (User users : expectedUsers){ stubUserDataRepository.saveUser(users);}
-
+        Mockito.when(getUsersUseCase.execute()).thenReturn(expectedUsers);
         //When
         List<User> actualUsers = getUsersUseCase.execute();
-
         //Then
-        Assertions.assertEquals(expectedUsers.size() , actualUsers.size(), "El tamaño debe ser el mismo.");
-
-        for (int i = 0; i < expectedUsers.size(); i++){
-            User expectedUser = expectedUsers.get(i);
-            User actualUser = actualUsers.get(i);
-            Assertions.assertEquals(expectedUser.id, actualUser.id);
-            Assertions.assertEquals(expectedUser.name, actualUser.name);
-            Assertions.assertEquals(expectedUser.surname, actualUser.surname);
-            Assertions.assertEquals(expectedUser.dni, actualUser.dni);
-            Assertions.assertEquals(expectedUser.email, actualUser.email);
+        Assertions.assertEquals(expectedUsers.size(), actualUsers.size());
+        for (int i = 0; i < expectedUsers.size(); i++) {
+            Assertions.assertEquals(expectedUsers.get(i), actualUsers.get(i));
         }
     }
 }

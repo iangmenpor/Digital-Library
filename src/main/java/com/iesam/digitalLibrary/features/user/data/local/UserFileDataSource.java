@@ -3,6 +3,7 @@ package com.iesam.digitalLibrary.features.user.data.local;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.iesam.digitalLibrary.features.loan.domain.Loan;
 import com.iesam.digitalLibrary.features.user.domain.User;
 
 
@@ -85,10 +86,24 @@ public class UserFileDataSource implements DataSourceRepository{
         List<User> newList = new ArrayList<>();
         List<User> models = findAll();
         for (User model : models) {
-            if (model.id != modelId) {
+            if (!model.id.equals(modelId)) {
                 newList.add(model);
             }
         }
         saveList(newList);
     }
+    @Override
+    public void update(User model) {
+        List<User> users = findAll();
+        for (int i = 0; i < users.size(); i++) {
+            User existingUser = users.get(i);
+            if (existingUser.id.equals(model.id)) {
+                users.set(i, model); // Actualizar el producto
+                saveList(users); // Guardar la lista actualizada
+                return;
+            }
+        }
+        System.out.println("[!] Usuario no encontrado para actualizar.");
+    }
+
 }
