@@ -1,7 +1,7 @@
 package com.iesam.digitalLibrary.features.user.presentation;
 
 import com.iesam.digitalLibrary.features.user.data.UserDataRepository;
-import com.iesam.digitalLibrary.features.user.data.local.UserMemLocalDataSource;
+import com.iesam.digitalLibrary.features.user.data.local.UserFileDataSource;
 import com.iesam.digitalLibrary.features.user.domain.*;
 
 import java.util.List;
@@ -10,7 +10,8 @@ import java.util.Scanner;
 public class UserPresentation {
 
     private static Scanner sc;
-    private static final UserDataRepository dataRepository =  new UserDataRepository(UserMemLocalDataSource.getInstance());
+    private static final UserDataRepository dataRepository =  new UserDataRepository(new UserFileDataSource());
+
 
     public UserPresentation(Scanner sc) { UserPresentation.sc = sc; }
 
