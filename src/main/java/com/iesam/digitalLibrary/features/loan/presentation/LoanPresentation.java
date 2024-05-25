@@ -77,7 +77,7 @@ public class LoanPresentation {
             int idUser = sc.nextInt();
             sc.nextLine();
 
-            user = UserPresentation.getUser(idUser);
+            user = new UserPresentation(sc).getUser(idUser);
 
             if (user != null) {
                 System.out.println("- Préstamo a nombre de: " + user);

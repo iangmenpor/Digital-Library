@@ -81,7 +81,14 @@ public class UserView {
         System.out.print("-> Introduce el Email: ");
         String email = sc.nextLine();
 
-        return new User(id, name, surname, dni, email);
+        if (id != null) {
+            return new User(id, name, surname, dni, email);
+        } else {
+            return new User(name, surname, dni, email);
+        }
+    }
+    public static User captureUserDetails(Scanner sc) {
+        return captureUserDetails(sc, null);
     }
 
     public static void deleteConfirmation(User user){

@@ -9,19 +9,20 @@ import java.util.Scanner;
 
 public class UserPresentation {
 
-    private static Scanner sc;
-    private static final UserDataRepository dataRepository =  new UserDataRepository(UserMemLocalDataSource.getInstance());
+    private final Scanner sc;
+    private final UserDataRepository dataRepository;
 
-
-    public UserPresentation(Scanner sc) { UserPresentation.sc = sc; }
+    public UserPresentation(Scanner sc) {
+        this.sc = sc;
+        this.dataRepository = new UserDataRepository(new UserFileDataSource());
+    }
 
     public void displayUserMenu() {
         int choice;
         do {
             UserView.printUserMenu();
             UserView.printConsoleRequest("Ingrese su elección");
-            choice = sc.nextInt();
-            sc.nextLine(); // Consumir la nueva línea después del entero
+            choice = getValidatedIntegerInput();
 
             switch (choice) {
                 case 1:
@@ -48,24 +49,35 @@ public class UserPresentation {
         } while (choice != 0);
     }
 
-    private static void saveUser() {
-        User newUser = UserView.captureUserDetails(sc, null);
+    private int getValidatedIntegerInput() {
+        while (!sc.hasNextInt()) {
+            UserView.printErrorMessage("Por favor, ingresa un número válido.");
+            sc.next(); // Consumir la entrada no válida
+        }
+        int input = sc.nextInt();
+        sc.nextLine(); // Consumir la nueva línea
+        return input;
+    }
+
+    private void saveUser() {
+        User newUser = UserView.captureUserDetails(sc);
         saveUser(newUser);
-
+        UserView.printUserInfo(newUser);
         UserView.printSuccessMessage("Usuario creado correctamente");
-        sc.nextLine(); //Consumir nueva linea
     }
 
-    public static void saveUser(User model){
-        SaveUserUseCase saveUserUseCase = new SaveUserUseCase(dataRepository);
-        saveUserUseCase.execute(model);
+    public void saveUser(User model) {
+        try {
+            SaveUserUseCase saveUserUseCase = new SaveUserUseCase(dataRepository);
+            saveUserUseCase.execute(model);
+        } catch (Exception e) {
+            UserView.printErrorMessage("Error al guardar el usuario: " + e.getMessage());
+        }
     }
 
-    private static void getUser(){
+    private void getUser() {
         UserView.printConsoleRequest("Ingresa el ID del Usuario que deseas recuperar");
-        int id = sc.nextInt();
-        sc.nextLine(); // Consumir línea
-
+        int id = getValidatedIntegerInput();
         User user = getUser(id);
 
         if (user == null) {
@@ -75,85 +87,87 @@ public class UserPresentation {
         }
     }
 
-    public static User getUser(Integer id){
+    public User getUser(Integer id) {
         GetUserUseCase getUserUseCase = new GetUserUseCase(dataRepository);
         return getUserUseCase.execute(id);
     }
 
-    private static void deleteUser(){
+    private void deleteUser() {
         UserView.printConsoleRequest("Ingresa el ID del Usuario que deseas eliminar");
-        int id = sc.nextInt();
-        sc.nextLine();
+        int id = getValidatedIntegerInput();
 
-            User user = getUser(id);
-            if (user == null) {
-                UserView.printErrorMessage("Usuario no encontrado");
-            } else {
+        User user = getUser(id);
+        if (user == null) {
+            UserView.printErrorMessage("Usuario no encontrado");
+        } else {
+            UserView.deleteConfirmation(user);
+            char conf = sc.next().charAt(0);
+            char confirmation = Character.toUpperCase(conf);
+            sc.nextLine(); //consumo
 
-                UserView.deleteConfirmation(user);
-
-                char conf = sc.next().charAt(0);
-                char confirmation = Character.toUpperCase(conf);
-                sc.nextLine(); //consumo
-
-                switch (confirmation) {
-                    case 'Y':
-                        deleteUser(id);
-                        UserView.printSuccessMessage("Usuario eliminado");
-                        break;
-                    case 'N':
-                        UserView.printCancelMessage("Eliminación cancelada");
-                        break;
-                    default:
-                        UserView.printErrorMessage("Opción no valida. Orden cancelada por defecto");
-                        break;
-                }
+            switch (confirmation) {
+                case 'Y':
+                    deleteUser(id);
+                    UserView.printSuccessMessage("Usuario eliminado");
+                    break;
+                case 'N':
+                    UserView.printCancelMessage("Eliminación cancelada");
+                    break;
+                default:
+                    UserView.printErrorMessage("Opción no valida. Orden cancelada por defecto");
+                    break;
             }
+        }
     }
 
-    public static void deleteUser(Integer id) {
-        DeleteUserUseCase deleteUserUseCase = new DeleteUserUseCase(dataRepository);
-        deleteUserUseCase.execute(id);
+    public void deleteUser(Integer id) {
+        try {
+            DeleteUserUseCase deleteUserUseCase = new DeleteUserUseCase(dataRepository);
+            deleteUserUseCase.execute(id);
+        } catch (Exception e) {
+            UserView.printErrorMessage("Error al eliminar el usuario: " + e.getMessage());
+        }
     }
 
-    public static List<User> getUsers(){
+    public List<User> getUsers() {
         GetUsersUseCase getUsersUseCase = new GetUsersUseCase(dataRepository);
         return getUsersUseCase.execute();
     }
 
-    private static void updateUser(){
+    private void updateUser() {
         UserView.printConsoleRequest("Introduce el id del usuario que deseas actualizar");
-        int id = sc.nextInt();
-        sc.nextLine();
+        int id = getValidatedIntegerInput();
+        User oldUser = getUser(id);
 
-            User oldUser = getUser(id);
-            if (oldUser == null) {
-                UserView.printErrorMessage("Usuario no encontrado");
-            } else {
-                UserView.updateConfirmation(oldUser);
+        if (oldUser == null) {
+            UserView.printErrorMessage("Usuario no encontrado");
+        } else {
+            UserView.updateConfirmation(oldUser);
+            char conf = sc.next().charAt(0);
+            char confirmation = Character.toUpperCase(conf);
+            sc.nextLine();
 
-                char conf = sc.next().charAt(0);
-                char confirmation = Character.toUpperCase(conf);
-                sc.nextLine();
-
-                switch (confirmation) {
-                    case 'Y':
-                        updateUser(UserView.captureUserDetails(sc, id));
-                        UserView.printSuccessMessage("Usuario Actualizado");
-                        break;
-                    case 'N':
-                        UserView.printCancelMessage("Modificación cancelada");
-                        break;
-                    default:
-                        UserView.printErrorMessage("Opción no valida. Orden cancelada por defecto");
-                        break;
-                }
+            switch (confirmation) {
+                case 'Y':
+                    updateUser(UserView.captureUserDetails(sc, id));
+                    UserView.printSuccessMessage("Usuario Actualizado");
+                    break;
+                case 'N':
+                    UserView.printCancelMessage("Modificación cancelada");
+                    break;
+                default:
+                    UserView.printErrorMessage("Opción no valida. Orden cancelada por defecto");
+                    break;
             }
-        sc.nextLine(); //consumo
+        }
     }
 
-    public static void updateUser(User model){
-        UpdateUserUseCase updateUserUseCase = new UpdateUserUseCase(dataRepository);
-        updateUserUseCase.execute(model);
+    public void updateUser(User model) {
+        try {
+            UpdateUserUseCase updateUserUseCase = new UpdateUserUseCase(dataRepository);
+            updateUserUseCase.execute(model);
+        } catch (Exception e) {
+            UserView.printErrorMessage("Error al actualizar el usuario: " + e.getMessage());
+        }
     }
 }
