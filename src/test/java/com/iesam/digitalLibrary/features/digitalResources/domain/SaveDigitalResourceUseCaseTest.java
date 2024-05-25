@@ -30,7 +30,7 @@ class SaveDigitalResourceUseCaseTest {
     @Test
     public void reciboUnProductoDigitalYLoGuardoEnMemoria(){
         //Given
-        EBook productToSave = new EBook(1,"1234", "Niebla", "Miguel de Unamuno",
+        EBook productToSave = new EBook(1,"1234", "Niebla", "Miguel de Unamuno", "Tristeza de Augusto",
                 "176", "ePUB");
 
         //When

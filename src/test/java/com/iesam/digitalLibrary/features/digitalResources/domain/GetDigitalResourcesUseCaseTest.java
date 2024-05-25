@@ -12,7 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+
 
 @ExtendWith(MockitoExtension.class)
 class GetDigitalResourcesUseCaseTest {
@@ -35,9 +35,9 @@ class GetDigitalResourcesUseCaseTest {
     public void cuandoSeSolicitaLaListaDeRecursosDigitalesSeDevuelveCorrectamente(){
         //Given
         List<DigitalResource> expectedResources = Arrays.asList(
-                new EBook(1, "TestISBN1", "TestTitle1", "TestAuthor1", "TestNumPages1", "TestFormat1"),
-                new EBook(2, "TestISBN2", "TestTitle2", "TestAuthor2", "TestNumPages2", "TestFormat2"),
-                new EBook(3, "TestISBN3", "TestTitle3", "TestAuthor3", "TestNumPages3", "TestFormat3")
+                new EBook(1, "TestISBN1", "TestTitle1", "TestAuthor1","TestDesc1","TestNumPages1", "TestFormat1"),
+                new EBook(2, "TestISBN2", "TestTitle2", "TestAuthor2", "TestDesc2","TestNumPages2", "TestFormat2"),
+                new EBook(3, "TestISBN3", "TestTitle3", "TestAuthor3","TestDesc3" ,"TestNumPages3", "TestFormat3")
         );
         Mockito.when(digitalResourceRepository.getDigitalResources()).thenReturn(expectedResources);
 

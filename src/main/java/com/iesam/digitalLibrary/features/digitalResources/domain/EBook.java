@@ -6,8 +6,13 @@ public class EBook extends DigitalResource {
     public final String numPages;
 
 
-    public EBook(Integer id, String isbn, String title, String author, String numPages, String format) {
-        super(id, title, author, format);
+    public EBook(Integer id, String isbn, String title, String author, String description, String numPages, String format) {
+        super(id, title, author, format, description);
+        this.isbn = isbn;
+        this.numPages = numPages;
+    }
+    public EBook(String isbn, String title, String author, String description, String numPages, String format) {
+        super(title, author, format, description);
         this.isbn = isbn;
         this.numPages = numPages;
     }

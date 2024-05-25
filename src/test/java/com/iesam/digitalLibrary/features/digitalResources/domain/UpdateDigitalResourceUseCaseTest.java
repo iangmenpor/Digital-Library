@@ -29,7 +29,7 @@ class UpdateDigitalResourceUseCaseTest {
     public void cuandoPasoNuevoModeloDebeLlamarAMetodoParaActualizarDeRepositorioDeControl(){
         //Given
         DigitalResource newResource= new EBook(1, "TestISBN", "TestTitle3",
-                "TestAuthor3", "TestNumPages", "TestFormat3");
+                "TestAuthor3", "TestDesc","TestNumPages", "TestFormat3");
 
         //When
         updateDigitalResourceUseCase.execute(newResource);

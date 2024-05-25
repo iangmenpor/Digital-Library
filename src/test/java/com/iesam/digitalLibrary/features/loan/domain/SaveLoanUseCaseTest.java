@@ -33,9 +33,9 @@ class SaveLoanUseCaseTest {
     public void reciboUnPrestamoYLoGuardoEnMemoria() {
         //Given
         ArrayList<DigitalResource> resources = new ArrayList<>();
-        resources.add(new EBook(1, "TestISBN1", "TestTitle1", "TestAuthor1", "TestNumPages1", "TestFormat1"));
-        resources.add(new EBook(2, "TestISBN2", "TestTitle2", "TestAuthor2", "TestNumPages2", "TestFormat2"));
-        resources.add(new EBook(3, "TestISBN3", "TestTitle3", "TestAuthor3", "TestNumPages3", "TestFormat3"));
+        resources.add(new EBook(1, "TestISBN1", "TestTitle1", "TestAuthor1", "TestDesc1","TestNumPages1", "TestFormat1"));
+        resources.add(new EBook(2, "TestISBN2", "TestTitle2", "TestAuthor2","TestDesc2", "TestNumPages2", "TestFormat2"));
+        resources.add(new EBook(3, "TestISBN3", "TestTitle3", "TestAuthor3","TestDesc3", "TestNumPages3", "TestFormat3"));
         User user = new User(1,"NameTest","SurnameTest","DNITest","EmailTest");
 
         Loan loanToSave = new Loan(1,user, resources, null);
