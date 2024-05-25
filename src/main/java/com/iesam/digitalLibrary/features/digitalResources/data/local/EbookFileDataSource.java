@@ -85,7 +85,7 @@ public class EbookFileDataSource implements EBookDataSourceRepository {
         List<EBook> newList = new ArrayList<>();
         List<EBook> models = findAll();
         for (EBook model : models) {
-            if (model.id != modelId) {
+            if (!model.id.equals(modelId)) {
                 newList.add(model);
             }
         }

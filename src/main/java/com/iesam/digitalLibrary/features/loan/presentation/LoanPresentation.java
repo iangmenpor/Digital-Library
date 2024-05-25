@@ -2,8 +2,6 @@ package com.iesam.digitalLibrary.features.loan.presentation;
 
 
 import com.iesam.digitalLibrary.features.digitalResources.domain.DigitalResource;
-import com.iesam.digitalLibrary.features.digitalResources.domain.EBook;
-import com.iesam.digitalLibrary.features.digitalResources.presentation.DigitalResourcePresentation;
 import com.iesam.digitalLibrary.features.loan.data.LoanDataRepository;
 import com.iesam.digitalLibrary.features.loan.data.local.LoanFileDataSource;
 import com.iesam.digitalLibrary.features.loan.domain.*;
@@ -20,7 +18,6 @@ public class LoanPresentation {
 
     private static Scanner sc;
     private final static LoanDataRepository dataRepository = new LoanDataRepository(new LoanFileDataSource());
-
     public LoanPresentation(Scanner sc) {
         LoanPresentation.sc = sc;
     }
@@ -93,7 +90,7 @@ public class LoanPresentation {
             System.out.println("\n+--------------------------------------------+");
             System.out.println("|          Añadir Recursos Digitales         |");
             System.out.println("+--------------------------------------------+");
-            DigitalResourcePresentation.availableResourcesMenu();
+            // DigitalResourcePresentation.availableResourcesMenu();
             System.out.print("> Ingresa tu elección: ");
             option = sc.nextInt();
             sc.nextLine();
@@ -106,13 +103,13 @@ public class LoanPresentation {
                     System.out.print("-> ID de Libro: ");
                     int idBook = sc.nextInt();
                     sc.nextLine();
-                    EBook eBook = DigitalResourcePresentation.getEBook(idBook);
+                    /*EBook eBook = new EbookPresentation(sc).getEbook(id); //+error
                     if (eBook != null) {
                         digitalResources.add(eBook);
                         System.out.println("<Info> Añadido: " + eBook);
                     } else {
                         System.err.println("<!> No se ha encontrado libro con ID = " + idBook);
-                    }
+                    }*/
                     break;
                 case 2:
                     System.out.println("<Info> Esta opción aún no está disponible.");

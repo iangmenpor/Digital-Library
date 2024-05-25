@@ -31,7 +31,7 @@ class GetDigitalResourceUseCaseTest {
     public void cuandoSeBuscaIdDeUnProductoDigitalExistenteDebeDevolverUsuarioBuscado(){
         //Given
         DigitalResource expectedProduct = new EBook(1, "TestISBN", "TestTitle3",
-                "TestAuthor3", "TestNumPages", "TestFormat3");
+                "TestAuthor3","TestDesc" , "TestNumPages", "TestFormat3");
         Mockito.when(digitalResourceRepository.getDigitalResource(1)).thenReturn(expectedProduct);
 
         //When
