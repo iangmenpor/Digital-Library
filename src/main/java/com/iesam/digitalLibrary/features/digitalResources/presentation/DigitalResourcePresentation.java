@@ -1,6 +1,8 @@
 package com.iesam.digitalLibrary.features.digitalResources.presentation;
 
 import com.iesam.digitalLibrary.features.digitalResources.data.EbookDataRepository;
+import com.iesam.digitalLibrary.features.digitalResources.data.local.AudioBookDataRepository;
+import com.iesam.digitalLibrary.features.digitalResources.data.local.AudioBookFileDataSource;
 import com.iesam.digitalLibrary.features.digitalResources.data.local.EbookFileDataSource;
 import com.iesam.digitalLibrary.features.digitalResources.domain.DigitalResource;
 
@@ -11,10 +13,12 @@ public class DigitalResourcePresentation {
 
     private final Scanner sc;
     private final EbookPresentation ebookPresentation;
+    private final AudioBookPresentation audioBookPresentation;
 
     public DigitalResourcePresentation(Scanner sc) {
         this.sc = sc;
         ebookPresentation = new EbookPresentation(sc, new EbookDataRepository(new EbookFileDataSource()));
+        audioBookPresentation = new AudioBookPresentation(sc, new AudioBookDataRepository(new AudioBookFileDataSource()));
     }
 
     public void displayDigitalProductsMenu() {
@@ -29,7 +33,7 @@ public class DigitalResourcePresentation {
                     ebookPresentation.displayEbookMenu();
                     break;
                 case 2:
-                    DigitalResourceView.printInfoMessage("En futuras actualizaciones");
+                    audioBookPresentation.displayAudioBookMenu();
                     break;
                 case 0:
                     DigitalResourceView.printInfoMessage("Volviendo al menú principal...");
@@ -58,10 +62,7 @@ public class DigitalResourcePresentation {
         int choice = getValidatedIntegerInput();
         return switch (choice) {
             case 1 -> ebookPresentation.getEbook(id);
-            case 2 -> {
-                DigitalResourceView.printInfoMessage("En futuras actualizaciones");
-                yield null;
-            }
+            case 2 -> audioBookPresentation.getAudioBook(id);
             default -> {
                 DigitalResourceView.printErrorMessage("Tipo de producto digital no válido.");
                 yield null;
