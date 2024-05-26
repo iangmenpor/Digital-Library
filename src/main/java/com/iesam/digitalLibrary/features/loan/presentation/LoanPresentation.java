@@ -15,7 +15,6 @@ public class LoanPresentation {
 
     private final Scanner sc;
     private final static LoanDataRepository dataRepository = new LoanDataRepository(new LoanFileDataSource());
-
     public LoanPresentation(Scanner sc) {
         this.sc = sc;
     }
