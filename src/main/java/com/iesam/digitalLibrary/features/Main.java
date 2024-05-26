@@ -10,15 +10,20 @@ public class Main {
     public static void main(String[] args) {
         int choice;
 
-        System.out.println("<-------Biblioteca Virtual------>");
+        System.out.println("[SYSTEM] System status: OK");
+        System.out.println("+++------------BIBLIOTECA VIRTUAL----------------+++");
+        System.out.println("|                 BIENVENIDO/A :)                  |");
+        System.out.println("+--------------------------------------------------+");
         do {
-            System.out.println("\n/---------Menu Principal--------/");
-            System.out.println("1. Ir a Menu de Usuario");
-            System.out.println("2. Ir a Menu de Productos");
-            System.out.println("3. Ir a menu de Préstamos.");
-            System.out.println("4. Salir");
-            System.out.println("/--------------------------------/");
-            System.out.print("> Ingrese su elección: ");
+            System.out.println("\n+--------------------------------------------------+");
+            System.out.println("|                  MENU PRINCIPAL                  |");
+            System.out.println("+--------------------------------------------------+");
+            System.out.println("|            [1]  Gestión de Usuarios.             |");
+            System.out.println("|            [2]  Gestión de Recursos.             |");
+            System.out.println("|            [3]  Gestión de Préstamos.            |");
+            System.out.println("|            [0]        Cerrar.                    |");
+            System.out.println("+------------------------<~>-----------------------+");
+            System.out.print("-> Ingrese su elección: ");
             Scanner sc = new Scanner(System.in);
             choice=sc.nextInt();
 
@@ -35,13 +40,13 @@ public class Main {
                     LoanPresentation loanPresentation = new LoanPresentation(sc);
                     loanPresentation.displayLoanMenu();
                     break;
-                case 4:
-                    System.out.println("<Info> Cerrando Programa...");
-                    System.out.println("Que tenga una buena lectura.");
+                case 0:
+                    System.out.println("[INFO] Cerrando Programa...........");
+                    System.out.println("[NOTE] Que tenga una buena día >u0.");
                     break;
                 default:
-                    System.err.println("<!> Opción no valida. Vuelva a intentarlo");
+                    System.err.println("[!] Opción no valida. Vuelva a intentarlo.");
             }
-        } while (choice !=4);
+        } while (choice !=0);
     }
 }
