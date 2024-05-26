@@ -19,13 +19,6 @@ public class EBook extends DigitalResource {
 
     @Override
     public String toString() {
-        return "EBook{" +
-                ", id=" + id +
-                ", title='" + title + '\'' +
-                ", author='" + author + '\'' +
-                ", isbn='" + isbn + '\'' +
-                ", numPages='" + numPages + '\'' +
-                ", format='" + format + '\'' +
-                '}';
+        return String.format("EBOOK [ID: %d | Título: %s | Autor: %s | ISBN: %s | Páginas: %s | Formato: %s]", id, title, author, isbn, numPages, format);
     }
 }

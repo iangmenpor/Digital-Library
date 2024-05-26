@@ -26,7 +26,7 @@ public class LoanMemLocalDataSource implements LoanDataSourceRepository{
     public void save(Loan model) {
         dataStore.put(model.id.toString(), model);
     }
-
+    @Override
     public void saveList(List<Loan> models) {
         for (Loan demo : models) {
             save(demo);
