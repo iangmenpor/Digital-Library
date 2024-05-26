@@ -77,6 +77,7 @@ public class LoanPresentation {
         }
     }
 
+
     private void deleteLoan(){
         LoanView.printConsoleRequest("Introduce el ID del préstamo a eliminar");
         int id = getValidatedIntegerInput();

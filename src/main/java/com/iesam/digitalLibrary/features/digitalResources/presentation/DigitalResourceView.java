@@ -8,7 +8,7 @@ public class DigitalResourceView {
         System.out.println("|      Menú de Recursos Digitales       |");
         System.out.println("|---------------------------------------|");
         System.out.println("|        [1] Gestión de Ebooks.         |");
-        System.out.println("|        [2] Gestión de Otro.           |");
+        System.out.println("|        [2] Gestión de AudioLibros.    |");
         System.out.println("|        [0] Salir                      |");
         System.out.println("+---------------------------------------+");
     }
@@ -31,7 +31,7 @@ public class DigitalResourceView {
         System.out.println("|  Recursos disponibles  |");
         System.out.println("+--------------- --------+");
         System.out.println("|   [1] Ebook.           |");
-        System.out.println("|   [2] Otro.            |");
+        System.out.println("|   [2] AudioLibro.      |");
         System.out.println("+------------------------+");
     }
 }
