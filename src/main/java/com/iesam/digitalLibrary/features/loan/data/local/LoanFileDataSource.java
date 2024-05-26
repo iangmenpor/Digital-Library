@@ -29,7 +29,7 @@ public class LoanFileDataSource implements LoanDataSourceRepository {
         models.add(model);
         saveToFile(models);
     }
-
+    @Override
     public void saveList(List<Loan> models) {
         saveToFile(models);
     }
@@ -86,7 +86,7 @@ public class LoanFileDataSource implements LoanDataSourceRepository {
         List<Loan> newList = new ArrayList<>();
         List<Loan> models = findAll();
         for (Loan model : models) {
-            if (model.id != modelId) {
+            if (!model.id.equals(modelId)) {
                 newList.add(model);
             }
         }

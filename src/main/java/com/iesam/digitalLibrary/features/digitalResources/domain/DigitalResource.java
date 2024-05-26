@@ -41,11 +41,6 @@ public class DigitalResource {
     }
     @Override
     public String toString() {
-        return "DigitalProduct{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", author='" + author + '\'' +
-                ", format='" + format + '\'' +
-                '}';
+        return String.format("Recurso Digital [ID: %d | Título: %s | Autor: %s | Formato: %s ]", id, title, author, format);
     }
 }

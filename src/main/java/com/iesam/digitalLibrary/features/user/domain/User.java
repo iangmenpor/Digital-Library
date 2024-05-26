@@ -54,12 +54,6 @@ public class User {
 
     @Override
     public String toString() {
-        return "- Usuario : {" +
-                " id =" + id +
-                ", nombre ='" + name + '\'' +
-                ", apellidos ='" + surname + '\'' +
-                ", dni ='" + dni + '\'' +
-                ", email='" + email + '\'' +
-                '}';
+        return String.format("[%d | Nombre: %s | Apellido: %s | DNI: %s | Correo electrónico: %s]", id, name, surname, dni, email);
     }
 }

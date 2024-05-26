@@ -2,6 +2,7 @@ package com.iesam.digitalLibrary.features.digitalResources.presentation;
 
 import com.iesam.digitalLibrary.features.digitalResources.data.EbookDataRepository;
 import com.iesam.digitalLibrary.features.digitalResources.data.local.EbookFileDataSource;
+import com.iesam.digitalLibrary.features.digitalResources.domain.DigitalResource;
 
 import java.util.Scanner;
 
@@ -42,11 +43,29 @@ public class DigitalResourcePresentation {
 
     private int getValidatedIntegerInput() {
         while (!sc.hasNextInt()) {
-            EbookView.printErrorMessage("Por favor, ingresa un número válido.");
+            DigitalResourceView.printErrorMessage("Por favor, ingresa un número válido.");
             sc.next(); // Consumir la entrada no válida
         }
         int input = sc.nextInt();
         sc.nextLine(); // Consumir la nueva línea
         return input;
+    }
+
+    public DigitalResource getDigitalResource(Integer id) {
+        // Implementar un menú para elegir el tipo de producto digital
+        DigitalResourceView.availableResources();
+        DigitalResourceView.printConsoleRequest("Selecciona el tipo de producto digital");
+        int choice = getValidatedIntegerInput();
+        return switch (choice) {
+            case 1 -> ebookPresentation.getEbook(id);
+            case 2 -> {
+                DigitalResourceView.printInfoMessage("En futuras actualizaciones");
+                yield null;
+            }
+            default -> {
+                DigitalResourceView.printErrorMessage("Tipo de producto digital no válido.");
+                yield null;
+            }
+        };
     }
 }

@@ -25,4 +25,13 @@ public class DigitalResourceView {
     public static void printConsoleRequest(String message){
         System.out.print("-> "+ message + ": ");
     }
+
+    public static void availableResources(){
+        System.out.println("\n+------------------------+");
+        System.out.println("|  Recursos disponibles  |");
+        System.out.println("+--------------- --------+");
+        System.out.println("|   [1] Ebook.           |");
+        System.out.println("|   [2] Otro.            |");
+        System.out.println("+------------------------+");
+    }
 }
